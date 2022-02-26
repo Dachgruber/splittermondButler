@@ -62,7 +62,10 @@ public class DiscordView extends ListenerAdapter implements View {
 		
 		//dont react if the bot send the message!
 		if(!event.getAuthor().isBot())
-			this.cntrl.executeCommand(args);
+			
+			//only react if the correct prefix is used
+			if(event.getMessage().getContentRaw().startsWith("!"))
+				this.cntrl.executeCommand(args);
 	}
 
 	@Override
@@ -90,17 +93,17 @@ public class DiscordView extends ListenerAdapter implements View {
 	@Override
 	public void displayRoll(Roll rollEvent) {
 		//private void DiceRoll(GuildMessageReceivedEvent event, int diceAmount, int diceSize) {
-			
-			 //Roll rollEvent = new Roll(diceAmount, diceSize);
-			 int[] results =rollEvent.RollTheDice();
-			
-			 int[] throwParam = new int[2];
-			 	   throwParam[0]= rollEvent.getDiceAmount();
-			 	   throwParam[1]= rollEvent.getDiceSize();
-			 
+//			
+//			 //Roll rollEvent = new Roll(diceAmount, diceSize);
+//			 int[] results = rollEvent.getResultField();
+//			
+//			 int[] throwParam = new int[2];
+//			 	   throwParam[0]= rollEvent.getDiceAmount();
+//			 	   throwParam[1]= rollEvent.getDiceSize();
+//			 
 			 	   
 			 RollTemplate rollTemplate= new RollTemplate();
-			 EmbedBuilder embed = rollTemplate.buildRollEmbed(this.currentEvent, throwParam, results);
+			 EmbedBuilder embed = rollTemplate.buildRollEmbed(this.currentEvent, rollEvent);
 			 
 			 currentEvent.getMessage().reply(embed.build()).queue();
 			 embed.clear();

@@ -21,6 +21,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
  * @author Cornelius
  * 
  * Class Commands acts as the join between the roll-butler code and the Discord API
+ *@deprecated
  *
  */
 public class OldCommands extends ListenerAdapter {

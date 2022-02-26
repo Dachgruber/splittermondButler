@@ -12,9 +12,12 @@ public class Commands {
 
 	private final String prefix = "!";
 	
+	private final String validOperator[] = 
+		{"+","-"};
+	
 	private final String validCommands[] =
 		//{"roll","giveRole","removeRole"};
-	{"roll","giveRole","removeRole", "tick"};
+		{"roll","giveRole","removeRole", "tick", "bingo"};
 	
 	private final String roll[] =
 		{"roll", "throw", "werfe", "würfel", "r", "würfle", "rolle"};
@@ -27,6 +30,9 @@ public class Commands {
 	
 	private final String tick[] =
 		{"tick", "tickleiste", "battle", "t"};
+
+	private final String bingo[] =
+		{"bbb", "bullshit", "bingo", "bullshitbingo", "nik"};
 		
 	public Commands() {
 		
@@ -56,6 +62,30 @@ public class Commands {
 	}
 	
 	/**
+	 * checks if a command contains a valid calculaton as in 2W10 + 13 etc
+	 * @param command string
+	 * @return true if command is valid
+	 */
+	public boolean isValidCalc(Command cmd){
+		boolean valid = false;
+		
+		if ((cmd.getArgs().length > 0)) {
+			System.out.println("the to checked operator is:");
+			System.out.println(cmd.getArgs()[1]);
+			if (Arrays.asList(validOperator).contains((cmd.getArgs()[1]))) { //is the used operator legal?
+			
+				if (this.isInteger(cmd.getArgs()[2])) { 					//is the operator followed by an integer?
+					System.out.println("Right command");
+					valid = true;
+					}
+			}
+		}
+		return valid;
+		
+	}
+	
+	
+	/**
 	 * corrects spelling of command and returns standard command string
 	 * @param command
 	 * @return string correct command
@@ -70,6 +100,8 @@ public class Commands {
 			command.setCmd("removeRole");
 		else if(Arrays.asList(tick).contains(lcCommand))
 			command.setCmd("tick");
+		else if(Arrays.asList(bingo).contains(lcCommand))
+			command.setCmd("bingo");
 		return command;
 	}
 

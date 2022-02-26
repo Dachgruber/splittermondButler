@@ -2,6 +2,7 @@ package View;
 
 import java.awt.Color;
 
+import Model.Roll;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -28,24 +29,22 @@ public class RollTemplate {
 	 * @param resultList list of individual results
 	 * @return finished embed object
 	 */
-	public EmbedBuilder buildRollEmbed(GuildMessageReceivedEvent event, int[] DiceThrow, int[] resultList) {
-		
-		String resultString = makeListToString(resultList);
-		int resultInteger = makeListToResult(resultList);
-		 embed.setTitle(Integer.toString(DiceThrow[0]) + " W" + Integer.toString(DiceThrow[1]) + "🎲");
+	public EmbedBuilder buildRollEmbed(GuildMessageReceivedEvent event, Roll rollEvent) {
+	
+		 embed.setTitle(Integer.toString(rollEvent.getDiceAmount()) + " W" + Integer.toString(rollEvent.getDiceSize()) + "🎲");
 		 
 		 embed.setDescription(event.getAuthor().getAsMention() + " rolled " 
-				 				+ Integer.toString(DiceThrow[0]) + " W" + Integer.toString(DiceThrow[1])
+				 				+ Integer.toString(rollEvent.getDiceAmount()) + " W" + Integer.toString(rollEvent.getDiceSize())
 				 			    + "\n" 
-				 			    + "resulting in " + "**" + Integer.toString(resultInteger) + "**");
+				 			    + "resulting in " + "**" + Integer.toString(rollEvent.getResult()) + "**");
 		 
-		 embed.addField("The Results are:", resultString, false);
+		 embed.addField("The Results are:", this.makeListToString(rollEvent.getResultField()), false);
 		// embed.addField("With a Sum of", Integer.toString(resultInteger), false);
 		 
-		 if( testIfGood(resultList, DiceThrow[1])) {
+		 if( testIfGood(rollEvent.getResultField(), rollEvent.getDiceSize()) ) {
 			 embed.addField("Critical Success!", "", false);
 		 }
-		 if( testIfBad(resultList)) {
+		 if( testIfBad(rollEvent.getResultField()) ) {
 			 embed.addField("Critical Success!", "", false);
 		 }
 		 
@@ -55,66 +54,66 @@ public class RollTemplate {
 		 return embed;
 	}
 	
-	public EmbedBuilder buildCheckEmbed(GuildMessageReceivedEvent event, int[] DiceThrow, int[] resultList, int checkValue) {
-		
-	    embed = this.buildRollEmbed(event, DiceThrow, resultList);
-		
-		int resultInteger = makeListToResult(resultList);
-	    boolean success = false;
-	    
-	    if (resultInteger > checkValue) {
-	    	success = true;
-	    }
-	    
-		if (success) {
-				embed.setDescription(event.getAuthor().getAsMention() + " rolled " 
-						+ Integer.toString(DiceThrow[0]) + " W" + Integer.toString(DiceThrow[1]) + " against " + Integer.toString(checkValue)
-						+ "\n" 
-						+ "resulting in " + "**" + Integer.toString(resultInteger) + "**"
-						+ "Which resulted in a "+ "**" + "Success!" + "**");
-			}
-			else {
-				embed.setDescription(event.getAuthor().getAsMention() + " rolled " 
-						+ Integer.toString(DiceThrow[0]) + " W" + Integer.toString(DiceThrow[1]) + " against " + Integer.toString(checkValue)
-		 			    + "\n" 
-		 			    + "resulting in " + "**" + Integer.toString(resultInteger) + "**" 
-		 			    + "\n"
-		 			    + "Which resulted in a "+ "**" + "failure" + "**");
-			}
-		
-		return embed;
-	}
-	
-	public EmbedBuilder buildSaveEmbed(GuildMessageReceivedEvent event, int[] DiceThrow, int[] resultList, int checkValue) {
-		
-	    embed = this.buildCheckEmbed(event, DiceThrow, resultList, checkValue);
-	    
-	    int resultInteger = makeListToResult(resultList);
-		int checkInteger = largest(resultList) + secondlargest(resultList);
-	    boolean success = false;
-	    
-	    if (checkInteger > checkValue) {
-	    	success = true;
-	    }
-	    
-		if (success) {
-				embed.setDescription(event.getAuthor().getAsMention() + " rolled a save roll wirh" 
-						+ Integer.toString(DiceThrow[0]) + " W" + Integer.toString(DiceThrow[1]) + " against " + Integer.toString(checkValue)
-						+ "\n" 
-						+ "resulting in " + "**" + Integer.toString(resultInteger) + "**"
-						+ "Which resulted in a "+ "**" + "Success!" + "**");
-			}
-			else {
-				embed.setDescription(event.getAuthor().getAsMention() + " rolled " 
-						+ Integer.toString(DiceThrow[0]) + " W" + Integer.toString(DiceThrow[1]) + " against " + Integer.toString(checkValue)
-		 			    + "\n" 
-		 			    + "resulting in " + "**" + Integer.toString(resultInteger) + "**" 
-		 			    + "\n"
-		 			    + "Which resulted in a "+ "**" + "failure" + "**");
-			}
-		
-		return embed;
-	}
+//	public EmbedBuilder buildCheckEmbed(GuildMessageReceivedEvent event, Roll rollEvent) {
+//		
+//	    embed = this.buildRollEmbed(rollEvent);
+//		
+//		int resultInteger = makeListToResult(resultList);
+//	    boolean success = false;
+//	    
+//	    if (resultInteger > checkValue) {
+//	    	success = true;
+//	    }
+//	    
+//		if (success) {
+//				embed.setDescription(event.getAuthor().getAsMention() + " rolled " 
+//						+ Integer.toString(DiceThrow[0]) + " W" + Integer.toString(DiceThrow[1]) + " against " + Integer.toString(checkValue)
+//						+ "\n" 
+//						+ "resulting in " + "**" + Integer.toString(resultInteger) + "**"
+//						+ "Which resulted in a "+ "**" + "Success!" + "**");
+//			}
+//			else {
+//				embed.setDescription(event.getAuthor().getAsMention() + " rolled " 
+//						+ Integer.toString(DiceThrow[0]) + " W" + Integer.toString(DiceThrow[1]) + " against " + Integer.toString(checkValue)
+//		 			    + "\n" 
+//		 			    + "resulting in " + "**" + Integer.toString(resultInteger) + "**" 
+//		 			    + "\n"
+//		 			    + "Which resulted in a "+ "**" + "failure" + "**");
+//			}
+//		
+//		return embed;
+//	}
+//	
+//	public EmbedBuilder buildSaveEmbed(GuildMessageReceivedEvent event, int[] DiceThrow, int[] resultList, int checkValue) {
+//		
+//	    embed = this.buildCheckEmbed(event, DiceThrow, resultList, checkValue);
+//	    
+//	    int resultInteger = makeListToResult(resultList);
+//		int checkInteger = largest(resultList) + secondlargest(resultList);
+//	    boolean success = false;
+//	    
+//	    if (checkInteger > checkValue) {
+//	    	success = true;
+//	    }
+//	    
+//		if (success) {
+//				embed.setDescription(event.getAuthor().getAsMention() + " rolled a save roll wirh" 
+//						+ Integer.toString(DiceThrow[0]) + " W" + Integer.toString(DiceThrow[1]) + " against " + Integer.toString(checkValue)
+//						+ "\n" 
+//						+ "resulting in " + "**" + Integer.toString(resultInteger) + "**"
+//						+ "Which resulted in a "+ "**" + "Success!" + "**");
+//			}
+//			else {
+//				embed.setDescription(event.getAuthor().getAsMention() + " rolled " 
+//						+ Integer.toString(DiceThrow[0]) + " W" + Integer.toString(DiceThrow[1]) + " against " + Integer.toString(checkValue)
+//		 			    + "\n" 
+//		 			    + "resulting in " + "**" + Integer.toString(resultInteger) + "**" 
+//		 			    + "\n"
+//		 			    + "Which resulted in a "+ "**" + "failure" + "**");
+//			}
+//		
+//		return embed;
+//	}
 	
 	private boolean testIfGood(int[] resultList, int bestPossible) {
 		boolean goodThrow = false;

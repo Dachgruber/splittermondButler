@@ -5,6 +5,8 @@ public interface Model {
 
 	Roll rollDice(Integer[] args);
 	
+	Roll rollDice(Integer[] args, String[] calcArgs);
+	
 	void giveRole();
 	
 	void removeRole();

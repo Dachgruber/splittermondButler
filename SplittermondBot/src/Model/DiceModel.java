@@ -14,8 +14,17 @@ public class DiceModel implements Model {
 //------------------------------Dice Section-------------------------------------
 	@Override
 	public Roll rollDice(Integer[] args) {
-		return new Roll(args[0],args[1]);
-
+		Roll r = new Roll(args[0],args[1]);
+		r.RollTheDice();
+		return r;
+	}
+	
+	@Override
+	public Roll rollDice(Integer[] args, String[] calcArgs ) {
+		Roll r = new Roll(args[0],args[1]);
+		r.RollTheDice();
+		r.calcResult(calcArgs[0], calcArgs[1]);
+		return r;
 	}
 //------------------------------TickBar Section----------------------------------
 	@Override
@@ -28,7 +37,8 @@ public class DiceModel implements Model {
 	public void joinPlayer(String string) {
 		User player = this.view.getCurrentEvent().getAuthor();
 		Roll r = new Roll(1, 6);
-		int result = r.RollTheDice()[0];
+		r.RollTheDice();
+		int result = r.getResult();
 		int pos = Integer.parseInt(string) - result ;
 		this.tb.joinPlayer(player, pos);
 		String replyStr = "You joined at pos "

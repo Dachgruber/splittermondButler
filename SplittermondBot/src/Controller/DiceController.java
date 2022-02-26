@@ -54,7 +54,18 @@ public class DiceController implements Controller{
 					if (command.getArgs().length > 0) {
 						args = cmd.getRollArgs(command.getArgs());
 					}
-					Roll r = this.model.rollDice(args);
+					Roll r;
+					if (cmd.isValidCalc(command)) {
+						System.out.println("calc arguments are: ");
+						System.out.println(command.getArgs()[1]);
+						System.out.println(command.getArgs()[2]);
+						String[] calcArgs = {command.getArgs()[1],command.getArgs()[2]};
+						r = this.model.rollDice(args, calcArgs);
+					}
+					else
+						r = this.model.rollDice(args);
+					
+					
 					this.view.displayRoll(r);
 					//DiceRoll(this.view.getCurrentEvent(), args[0], args[1]);
 				}
@@ -87,34 +98,15 @@ public class DiceController implements Controller{
 				
 				
 			}
+			
+			if (command.getCmd().equals("bingo")) {
+				if (cmd.checkValidRoll(command.getArgs())) {
+					Integer[] args = {1,16};
+					Roll r = this.model.rollDice(args);
+					this.view.displayRoll(r);
+				}
+			}
 		}
 	}
-	
-	
-	/**
-	  * Executing the rolling of the dice and sending the embed off. This is where roll, rolltemplate and the commands
-	  * come together 
-	  * @deprecated
-	  * 
-	  * @param event	  Current message-received-event
-	  * @param diceAmount How many dice needs to be rolled?
-	  * @param diceSize	  How many sides does each dice have?
-	  */
-	 private void DiceRoll(GuildMessageReceivedEvent event, int diceAmount, int diceSize) {
-		
-		 Roll rollEvent = new Roll(diceAmount, diceSize);
-		 int[] results =rollEvent.RollTheDice();
-		
-		 int[] throwParam = new int[2];
-		 	   throwParam[0]= diceAmount;
-		 	   throwParam[1]= diceSize;
-		 
-		 	   
-		 RollTemplate rollTemplate= new RollTemplate();
-		 EmbedBuilder embed = rollTemplate.buildRollEmbed(event, throwParam, results);
-		 
-		 event.getMessage().reply(embed.build()).queue();
-		 embed.clear();
-	 }
 	
 }

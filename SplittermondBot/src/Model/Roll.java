@@ -1,14 +1,17 @@
 package Model;
 
+import Controller.Command;
 import View.RollTemplate;
 
 public class Roll {
 
 	RollTemplate embed = new RollTemplate();
 	int diceAmount;
-	
-
 	int diceSize;
+	
+	int[] resultField;
+	int result = 0;
+	
 	int mod = 0;
 	int test;
 	Dice[] diceList ;
@@ -30,21 +33,48 @@ public class Roll {
 		}
 	}
 	
-	public int[] RollTheDice() {
+	public void RollTheDice() {
 		
-		int[] resultField = new int[this.diceAmount];
+		this.resultField = new int[this.diceAmount];
 		
-		
-		for (int i = 0; i < this.diceAmount; i++)
-			{
+		for (int i = 0; i < this.diceAmount; i++) {
 				int tempResult = this.diceList[i].rollDice();
 				resultField[i] = tempResult;	
 			
 			}
+		this.calcResult();
 		
-		return resultField;
 	}
-
+	
+	
+	public void calcResult() {
+		int newResult = 0;
+		for ( int n = 0; n < this.resultField.length; n++) {
+			newResult += resultField[n];
+		}
+		this.result = newResult;
+	}
+	
+	public void calcResult(String operator, String calcArg) {
+		
+		int newResult = 0;
+		for ( int n = 0; n < this.resultField.length; n++) {
+			newResult += resultField[n];
+		}
+			switch (operator) {
+			case "+":
+				newResult += Integer.parseInt(calcArg);
+				break;
+			case "-":
+				newResult -= Integer.parseInt(calcArg);
+				break;
+			
+			
+		}
+		
+		this.result = newResult;
+	}
+	
 	public int getDiceAmount() {
 		return diceAmount;
 	}
@@ -59,6 +89,14 @@ public class Roll {
 
 	public void setDiceSize(int diceSize) {
 		this.diceSize = diceSize;
+	}
+
+	public int[] getResultField() {
+		return resultField;
+	}
+	
+	public int getResult() {
+		return result;
 	}
 
 }
