@@ -45,7 +45,7 @@ public class DiceController implements Controller{
 			//finally: execute the corresponding action
 			
 			//if the action equals "roll", get the arguments, create a new RollEvent and display it
-			if (command.getCmd().equals("roll")){
+			if ( (command.getCmd().equals("roll")) || (command.getCmd().equals("gmroll")) ) {
 				if (cmd.checkValidRoll(command.getArgs())) {
 					
 					//sets the default value to 2W10
@@ -65,46 +65,64 @@ public class DiceController implements Controller{
 					else
 						r = this.model.rollDice(args);
 					
+					if (command.getCmd().equals("roll"))
+						this.view.displayRoll(r);
+					else
+						this.view.displayGMRoll(r);
 					
-					this.view.displayRoll(r);
 					//DiceRoll(this.view.getCurrentEvent(), args[0], args[1]);
 				}
 			}
-			
 			//if the action equals "tick", create a new "tickleiste" and act
-			if (command.getCmd().equals("tick")) {
-				this.view.displayMsg("Feature isnt implemented yet");
+			else if (command.getCmd().equals("tick")) {
+				//this.view.displayMsg("Feature isnt implemented yet");
 				
 				//get the second command in line, so that we can initiate the corresponding tickBar Action:
-				String secondCommand = command.getArgs()[0];
+				String secondCommand = cmd.correctTickCommand(command.getArgs()[0]);
 				System.out.println(secondCommand);
 				
-				//check if current model as a tickbar, creates if 
-				if (secondCommand.equals("create")) {
-					this.model.newTickBar();
+				//is the second command valid?
+				if (cmd.checkvalidTickCommand(secondCommand)) {
+					//check if current model as a tickbar, creates if 
+					if (secondCommand.equals("create")) {
+						this.model.newTickBar();
+					}
+					else if (secondCommand.equals("join")) {
+						this.model.joinPlayer(command.getArgs()[1]);
+					}
+					else if (secondCommand.equals("next")) {
+						this.model.tick();
+					}
+					else if (secondCommand.equals("start")) {
+						this.model.startBattle();
+					}
+					else if (secondCommand.equals("list")) {
+						this.model.listTickBar();
+					}
+					else if (secondCommand.equals("pos")) {
+						this.model.showPosOfPlayer();
+					}
+					else if (secondCommand.equals("move")) {
+						this.model.movePlayer(command.getArgs()[1]);
+					}
 				}
-				else if (secondCommand.equals("join")) {
-					this.model.joinPlayer(command.getArgs()[1]);
-				}
-				else if (secondCommand.equals("tick")) {
-					this.model.tick();
-				}
-				else if (secondCommand.equals("start")) {
-					this.model.startBattle();
-				}
-				else if (secondCommand.equals("move")) {
-					this.model.movePlayer(command.getArgs()[1]);
-				}
+					else
+						this.view.displayMsg("do you have the stupid - invalid tick command");
+				
 				
 				
 			}
 			
 			if (command.getCmd().equals("bingo")) {
-				if (cmd.checkValidRoll(command.getArgs())) {
-					Integer[] args = {1,16};
-					Roll r = this.model.rollDice(args);
-					this.view.displayRoll(r);
-				}
+				String bingoResult = this.model.rollBingo();
+				this.view.displayBingo(bingoResult);
+				
+//				if (cmd.checkValidRoll(command.getArgs())) {
+//					Integer[] args = {1,16};
+//					Roll r = this.model.rollDice(args);
+//					this.view.displayRoll(r);
+//					//this.view.displayLocalImg("img/bingo.jpg");
+				
 			}
 		}
 	}
