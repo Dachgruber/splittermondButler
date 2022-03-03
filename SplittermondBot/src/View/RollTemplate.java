@@ -53,6 +53,16 @@ public class RollTemplate {
 		 
 		 return embed;
 	}
+
+	public EmbedBuilder buildPrivateRollEmbed(GuildMessageReceivedEvent currentEvent, Roll rollEvent) {
+		 embed = this.buildRollEmbed(currentEvent, rollEvent);
+		 embed.setTitle("GMRoll: " + Integer.toString( rollEvent.getDiceAmount()) + " W" + Integer.toString(rollEvent.getDiceSize()) + "🎲");
+		 embed.setDescription(currentEvent.getAuthor().getAsMention() + " rolled secrently" 
+	 				+ Integer.toString(rollEvent.getDiceAmount()) + " W" + Integer.toString(rollEvent.getDiceSize())
+	 			    + " to you.\n" 
+	 			    + "resulting in " + "**" + Integer.toString(rollEvent.getResult()) + "**");
+		return embed;
+	}
 	
 //	public EmbedBuilder buildCheckEmbed(GuildMessageReceivedEvent event, Roll rollEvent) {
 //		
