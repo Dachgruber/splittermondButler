@@ -1,6 +1,8 @@
 package View;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.security.auth.login.LoginException;
 
@@ -10,6 +12,11 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.PrivateChannel;
+import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -21,6 +28,7 @@ public class DiscordView extends ListenerAdapter implements View {
 
 	private Controller cntrl;
 	private GuildMessageReceivedEvent currentEvent;
+	private final String GM_ROLENAME = "Gamemaster";
 	
 	
 	public DiscordView(Controller contrl) {
@@ -92,16 +100,7 @@ public class DiscordView extends ListenerAdapter implements View {
 
 	@Override
 	public void displayRoll(Roll rollEvent) {
-		//private void DiceRoll(GuildMessageReceivedEvent event, int diceAmount, int diceSize) {
-//			
-//			 //Roll rollEvent = new Roll(diceAmount, diceSize);
-//			 int[] results = rollEvent.getResultField();
-//			
-//			 int[] throwParam = new int[2];
-//			 	   throwParam[0]= rollEvent.getDiceAmount();
-//			 	   throwParam[1]= rollEvent.getDiceSize();
-//			 
-			 	   
+		
 			 RollTemplate rollTemplate= new RollTemplate();
 			 EmbedBuilder embed = rollTemplate.buildRollEmbed(this.currentEvent, rollEvent);
 			 
@@ -110,7 +109,22 @@ public class DiscordView extends ListenerAdapter implements View {
 		 }
 		
 	
+	@Override
+	public void displayGMRoll(Roll rollEvent) {
+		RollTemplate rollTemplate= new RollTemplate();
+		EmbedBuilder embed = rollTemplate.buildPrivateRollEmbed(this.currentEvent, rollEvent);
+		 
+		
+		Role gmRole = findRole(currentEvent.getGuild(), GM_ROLENAME);
+		Member gm = currentEvent.getGuild().getMembersWithRoles(gmRole).get(0);
+		
+		MessageEmbed content = embed.build();
+		gm.getUser().openPrivateChannel().flatMap(channel -> channel.sendMessage(content)).queue();
+		 embed.clear();
 
+	}
+
+	
 	@Override
 	public void displayError(Exception exc) {
 		currentEvent.getChannel().sendMessage(exc.getLocalizedMessage()).queue();
@@ -142,4 +156,56 @@ public class DiscordView extends ListenerAdapter implements View {
 		
 	}
 
+	@Override
+	public void displayTickPosition(int pos) {
+		this.displayMsg("Your turn is at Tick: " + Integer.toString(pos));
+		
+	}
+
+//	@Override
+//	public void displayOnlineImg(String string) {
+//		URL url;
+//		try {
+//			url = new URL(string);
+//			currentEvent.getChannel().sendFile(url.openStream()).queue();
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//	}
+	@Override
+	public void displayLocalImg(String string) {
+		File file;
+		try {
+			file = new File(string);
+			currentEvent.getChannel().sendFile(file).queue();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	private Role findRole(Guild guild, String name) {
+		
+	    List<Role> roles = guild.getRolesByName(name, true);
+	    
+	    return roles.get(0);
+	   
+	}
+
+	@Override
+	public void displayBingo(String bingoResult) {
+		
+		Role gmRole = findRole(currentEvent.getGuild(), GM_ROLENAME);
+		Member gm = currentEvent.getGuild().getMembersWithRoles(gmRole).get(0);
+		
+		MiscTemplate bingoTemplate= new MiscTemplate();
+		EmbedBuilder embed = bingoTemplate.buildBingoEmbed(this.currentEvent, gm, bingoResult);
+		 
+		currentEvent.getMessage().reply(embed.build()).queue();
+		embed.clear();
+		
+	}
 }

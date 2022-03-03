@@ -38,4 +38,14 @@ public interface View {
 	void displayTickContent(int i, User[] turn, ArrayList<ArrayList<String>> nextMoves);
 
 	void displayTickStart(User[] playerNames, Integer[] integers);
+	
+	void displayTickPosition(int pos);
+	
+//	void displayOnlineImg(String string);
+	
+	void displayLocalImg(String string);
+	
+	void displayGMRoll(Roll r);
+	
+	void displayBingo(String bingoResult);
 }
