@@ -16,6 +16,11 @@ public class Roll {
 	int test;
 	Dice[] diceList ;
 
+	/**
+	 * creates a new Roll event, needs amount of dices and the used size
+	 * @param diceAmount
+	 * @param diceSize
+	 */
 	public Roll(int diceAmount , int diceSize) {
 		
 		this.diceAmount = diceAmount;

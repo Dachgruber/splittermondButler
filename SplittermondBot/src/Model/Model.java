@@ -2,10 +2,16 @@ package Model;
 
 public interface Model {
 	
-
+	/**
+	 * rolls a set of dice
+	 * @param args
+	 * @return
+	 */
 	Roll rollDice(Integer[] args);
 	
 	Roll rollDice(Integer[] args, String[] calcArgs);
+	
+	String rollBingo();
 	
 	void giveRole();
 	
@@ -20,4 +26,8 @@ public interface Model {
 	void startBattle();
 
 	void movePlayer(String string);
+
+	void listTickBar();
+
+	void showPosOfPlayer();
 }
