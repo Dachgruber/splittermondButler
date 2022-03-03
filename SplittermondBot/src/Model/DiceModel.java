@@ -1,5 +1,16 @@
 package Model;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Stream;
+
 import View.View;
 import net.dv8tion.jda.api.entities.User;
 
@@ -7,6 +18,9 @@ public class DiceModel implements Model {
 
 	TickBar tb;
 	View view;
+	
+
+	final String BULLSHIT_PATH = "txt/bullshit.txt";
 	
 	public DiceModel(View view) {
 		this.view = view;
@@ -26,6 +40,31 @@ public class DiceModel implements Model {
 		r.calcResult(calcArgs[0], calcArgs[1]);
 		return r;
 	}
+//------------------------------BullshitBingo Section----------------------------------
+	@Override
+	public String rollBingo() {
+		String[] items = null;
+		String result = "bullshitbingo failed";
+		try {
+			items = loadFileAsString(BULLSHIT_PATH).split(";"); //The Items are separated in the txt by an ;
+			
+			System.out.println("Bingo rolled, length, result");
+			System.out.println(items.length-1); 
+			
+			Roll bbroll = new Roll(1,items.length-1); // -1 as the last item in the array it always empty
+			bbroll.RollTheDice();
+			
+			System.out.println(bbroll.getResult());
+			
+			result = items[bbroll.getResult()-1]; // as the dice results start with 1, not 0
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+		
+	}
+	
 //------------------------------TickBar Section----------------------------------
 	@Override
 	public void newTickBar() {
@@ -72,6 +111,18 @@ public class DiceModel implements Model {
 				+ Integer.toString(pos); 
 		this.view.reply(replyStr);
 	}
+	
+	@Override
+	public void listTickBar() {
+		this.view.displayTickContent(this.tb.getCurrentTick(), this.tb.getTurn(), this.tb.getNextMoves(10));
+		
+	}
+	@Override
+	public void showPosOfPlayer() {
+		int pos = tb.getPositionOfUser(this.view.getCurrentEvent().getAuthor());
+		this.view.displayTickPosition(pos);
+		
+	}
 //------------------------------Role Section----------------------------------	
 	@Override
 	public void giveRole() {
@@ -84,7 +135,29 @@ public class DiceModel implements Model {
 		// TODO Auto-generated method stub
 
 	}
-
 	
+
+	/**
+	 * Loads a file and glues every line onto a long String
+	 * @param filepath location if file
+	 * @return content of file in String
+	 * @throws IOException
+	 */
+	private String loadFileAsString(String filepath) throws IOException{
+		String path = filepath;
+		try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+
+            String line = br.readLine();
+            StringBuilder sb = new StringBuilder();
+
+            while (line != null) {
+                sb.append(line).append("\n");
+                line = br.readLine();
+            }
+
+            String fileAsString = sb.toString();
+            return fileAsString;
+		}
+	}
 
 }
