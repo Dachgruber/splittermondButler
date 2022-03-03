@@ -46,11 +46,22 @@ public class TickBar {
 	}
 	
 	/**
-	 * gets the playernames to act 
+	 * gets the playernames to act at the current Tick
 	 * @return
 	 */
 	public User[] getTurn() {
-		return this.getPlayersAtPos(currentTick);
+		return this.getPlayersAtPos(this.getCurrentTick());
+	}
+	
+	/**
+	 * returns the turn of the user
+	 * @param user
+	 * @return
+	 */
+	public int getPositionOfUser(User player) {
+		int playerID = players.indexOf(player);
+		return playerPos.get(playerID);
+
 	}
 	
 	/**
@@ -82,7 +93,7 @@ public class TickBar {
 	}
 	
 	/**
-	 * determines the playernames, that move at the current position
+	 * determines the players, that have their turn at the named position
 	 * @param pos
 	 * @return
 	 */
