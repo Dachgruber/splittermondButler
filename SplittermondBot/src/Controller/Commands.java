@@ -17,10 +17,13 @@ public class Commands {
 	
 	private final String validCommands[] =
 		//{"roll","giveRole","removeRole"};
-		{"roll","giveRole","removeRole", "tick", "bingo"};
+		{"roll","gmroll","giveRole","removeRole", "tick", "bingo"};
 	
 	private final String roll[] =
 		{"roll", "throw", "werfe", "würfel", "r", "würfle", "rolle"};
+	
+	private final String gmroll[] =
+		{"gmroll", "gmthrow", "gamemaster", "gm", "gmr"};
 	
 	private final String giveRole[] =
 		{"give", "get", "giveRole", "getRole"};
@@ -34,6 +37,10 @@ public class Commands {
 	private final String bingo[] =
 		{"bbb", "bullshit", "bingo", "bullshitbingo", "nik"};
 		
+	private final String tickCmd[] =
+		{"create", "start", "next", "move", "set", "pos", "list"};
+	
+	
 	public Commands() {
 		
 	}
@@ -69,7 +76,7 @@ public class Commands {
 	public boolean isValidCalc(Command cmd){
 		boolean valid = false;
 		
-		if ((cmd.getArgs().length > 0)) {
+		if ((cmd.getArgs().length > 1)) {
 			System.out.println("the to checked operator is:");
 			System.out.println(cmd.getArgs()[1]);
 			if (Arrays.asList(validOperator).contains((cmd.getArgs()[1]))) { //is the used operator legal?
@@ -94,6 +101,8 @@ public class Commands {
 		String lcCommand = command.getCmd().toLowerCase();
 		if(Arrays.asList(roll).contains(lcCommand))
 			command.setCmd("roll");
+		else if(Arrays.asList(gmroll).contains(lcCommand))
+			command.setCmd("gmroll");
 		else if(Arrays.asList(giveRole).contains(lcCommand))
 			command.setCmd("giveRole");
 		else if(Arrays.asList(removeRole).contains(lcCommand))
@@ -105,6 +114,19 @@ public class Commands {
 		return command;
 	}
 
+	/**
+	 * checks if a command is valid in context of the tick parent-cmd
+	 * @param secondCommand
+	 * @return
+	 */
+	public boolean checkvalidTickCommand(String secondCommand) {
+		boolean valid = false;
+			if(Arrays.asList(tickCmd).contains(secondCommand)) {
+				valid = true;
+			}
+		return valid;
+	}
+	
 	/**
 	 * checks if the command acts as a valid roll command.
 	 * A command is considered valid if either no args are given (default roll) or 2 Integers split with a W is given (2W10 etc)
@@ -161,4 +183,14 @@ public class Commands {
 		}
 		
 	}
+/**
+ * corrects a string to a corresponding tick command, currently not in used
+ * @deprecated
+ * @param string
+ * @return
+ */
+	public String correctTickCommand(String string) {
+		// TODO Auto-generated method stub
+		return null;
+}
 }
