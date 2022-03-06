@@ -1,13 +1,12 @@
 package Controller;
 
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 public interface Controller {
 
 	/**
-	 * executes a command
-	 * @param args
+	 * executes a given command in string form
+	 * @param args string with command, f.e. !give role
 	 */
-	void executeCommand(String args);
+	void executeCommand(String cmdStr);
 		 
 }

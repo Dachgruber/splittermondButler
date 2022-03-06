@@ -5,12 +5,29 @@ import java.util.Collections;
 
 import net.dv8tion.jda.api.entities.User;
 
+/**
+ * the tickbar is the implementation of the classic 'tickleiste', which is the battle board of Splittermond. 
+ * User and enemies join the battle with a 1W6 for some random start initative. Then, the battle starts with the first
+ * player, and every player gets called corresponding to their turn. After some action the player can either move their pointer relative
+ * to their last position or set themselves to a specific point on the table
+ * @author Cornelius
+ *
+ */
 public class TickBar {
 
 	int currentTick;
+	
+	//used to calc the actual tick if the battle starts with negative ticks
 	int offset = 0;
+	
+	//players and the positions are represented by dynamic lists. The pos-integer for the list
+	//is used as an internal userID
 	ArrayList<User> players;
 	ArrayList<Integer> playerPos;
+	
+	/**
+	 * creates a new Tickbar, starting at tick 0
+	 */
 	public TickBar() {
 		this.currentTick = 0;
 		this.players = new ArrayList<User>();
@@ -25,6 +42,9 @@ public class TickBar {
 		return playerPos.toArray(new Integer[playerPos.size()]);
 	}
 
+	/**
+	 * steps the tickbar to the next tick
+	 */
 	public void tick() {
 		this.currentTick++;
 	}
@@ -34,11 +54,21 @@ public class TickBar {
 		
 	}
 	
-	public void joinPlayer(User player, int playerInitiative) {
+	/**
+	 * adds a player to the tickbar. Needs the User-Object and the start-position
+	 * @param player User-Object of the player
+	 * @param playerInitiative 1W6-INI of the player
+	 */
+	public void joinPlayer(User player, int startTick) {
 		this.players.add(player);
-		this.playerPos.add(playerInitiative);
+		this.playerPos.add(startTick);
 	}
 	
+	/**
+	 * moves the player relative to the current position
+	 * @param player
+	 * @param moveDistance
+	 */
 	public void movePlayer(User player, int moveDistance) {
 		int playerID = players.indexOf(player);
 		int newPos = playerPos.get(playerID) + moveDistance;
@@ -67,7 +97,7 @@ public class TickBar {
 	/**
 	 * really bad method of getting the next moves of players into a 2D-String matrix
 	 * @param length amount of moves that should be considered
-	 * @return
+	 * @return ArrayLists of every user acting on the corresponding tick
 	 */
 	public ArrayList<ArrayList<String>> getNextMoves(int length) {
 		ArrayList<ArrayList<String>> lines = new ArrayList<ArrayList<String>>();
@@ -108,6 +138,9 @@ public class TickBar {
 		return returnArray.toArray(new User[returnArray.size()]);
 	}
 
+	/**
+	 * initialises the tickbar, checks if negative pos are given and calcs the offset needed if some player start at a negative number
+	 */
 	public void start() {
 		int lowestPos = Collections.min(playerPos);
 		if (lowestPos < 0) 

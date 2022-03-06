@@ -58,8 +58,15 @@ public class Command {
 	public String[] getArgs() {
 		return args;
 	}
+	
+	//set the full args array
 	public void setArgs(String[] args) {
 		this.args = args;
+	}
+	
+	//only set one specific argument
+	public void setArgs(int pos, String arg) {
+		this.args[pos] = arg;
 	}
 	
 	public String getRawCommand() {
