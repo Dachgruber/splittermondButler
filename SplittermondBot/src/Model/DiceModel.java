@@ -70,8 +70,26 @@ public class DiceModel implements Model {
 	public void newTickBar() {
 		tb = new TickBar();
 		this.view.displayTickNew();
+		
 	}
-
+	
+	@Override
+	public void joinEnemy(String name, String ini) {
+		System.out.println(name + ini);
+		Enemy en = new Enemy(name, Integer.parseInt(ini));
+		Roll r = new Roll(1, 6);
+		r.RollTheDice();
+		int result = r.getResult();
+		int pos = en.getIni() - result ;
+		this.tb.joinEnemy(en, pos);
+		String replyStr = en.getName() + " joined at pos "
+				+ Integer.toString(pos) 
+				+ " while rolling a "
+				+ Integer.toString(result);
+		this.view.reply(replyStr);
+	
+	}
+	
 	@Override
 	public void joinPlayer(String string) {
 		User player = this.view.getCurrentEvent().getAuthor();
@@ -91,15 +109,20 @@ public class DiceModel implements Model {
 	@Override
 	public void tick() {
 		this.tb.tick();
-		this.view.displayTickContent(this.tb.getCurrentTick(), this.tb.getTurn(), this.tb.getNextMoves(5));
+		this.view.displayTickContent(this.tb.getCurrentTick(), this.tb.getPlayerTurn(), this.tb.getEnemyTurn(), this.tb.getNextMoves(5));
 		
 	}
 	
 	@Override
 	public void startBattle() {
-		tb.start();
-		this.view.displayTickStart(this.tb.getPlayers(), this.tb.getPlayerPos());
-		this.view.displayTickContent(this.tb.getCurrentTick(), this.tb.getTurn(), this.tb.getNextMoves(5));
+		if (tb != null) {
+			tb.start();
+			this.view.displayTickStart(this.tb.getPlayers(), this.tb.getPlayerPos());
+			this.view.displayTickContent(this.tb.getCurrentTick(), this.tb.getPlayerTurn(), this.tb.getEnemyTurn(), this.tb.getNextMoves(5));
+		}
+		else {
+			this.view.displayMsg("you funcking twat - there is no tickbar to start");
+		}
 	}
 	
 	@Override
@@ -114,7 +137,7 @@ public class DiceModel implements Model {
 	
 	@Override
 	public void listTickBar() {
-		this.view.displayTickContent(this.tb.getCurrentTick(), this.tb.getTurn(), this.tb.getNextMoves(10));
+		this.view.displayTickContent(this.tb.getCurrentTick(), this.tb.getPlayerTurn(), this.tb.getEnemyTurn(), this.tb.getNextMoves(10));
 		
 	}
 	@Override

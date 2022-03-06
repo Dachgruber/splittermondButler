@@ -7,6 +7,7 @@ import java.util.List;
 import javax.security.auth.login.LoginException;
 
 import Controller.Controller;
+import Model.Enemy;
 import Model.Roll;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDABuilder;
@@ -29,7 +30,7 @@ public class DiscordView extends ListenerAdapter implements View {
 	private Controller cntrl;
 	private GuildMessageReceivedEvent currentEvent;
 	private final String GM_ROLENAME = "Gamemaster";
-	
+	private final String PARTICIPANT_ROLENAME = "Participant";
 	
 	public DiscordView(Controller contrl) {
 		this.cntrl = contrl;
@@ -65,8 +66,8 @@ public class DiscordView extends ListenerAdapter implements View {
 	public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
 		this.currentEvent = event;
 		String args = event.getMessage().getContentRaw();
-		System.out.println("Listener Fired");
-		System.out.println(this.currentEvent.getMessage().getContentRaw());
+		//System.out.println("Listener Fired"); 								//DEBUG
+		//System.out.println(this.currentEvent.getMessage().getContentRaw());
 		
 		//dont react if the bot send the message!
 		if(!event.getAuthor().isBot())
@@ -91,6 +92,15 @@ public class DiscordView extends ListenerAdapter implements View {
 		currentEvent.getChannel().sendMessage(msg).queue();
 		
 	}
+	
+	@Override
+	public void askGM(String content) {
+		Role gmRole = findRole(currentEvent.getGuild(), GM_ROLENAME);
+		Member gm = currentEvent.getGuild().getMembersWithRoles(gmRole).get(0);
+		gm.getUser().openPrivateChannel().flatMap(channel -> channel.sendMessage(content)).queue();
+		
+	}
+
 	
 	@Override
 	public void reply(String msg) {
@@ -133,15 +143,16 @@ public class DiscordView extends ListenerAdapter implements View {
 
 	@Override
 	public void displayTickNew() {
-		this.displayMsg("-------------------Neue Tickleiste-----------------------");
-		
+		Role partRole = findRole(currentEvent.getGuild(), PARTICIPANT_ROLENAME);
+		this.displayMsg(partRole.getAsMention() + "The GM started a new fight! Type !tick join [INI] to join the battle!");
+				
 	}
 
 
 	@Override
-	public void displayTickContent(int currentTick, User[] turn, ArrayList<ArrayList<String>> nextMoves) {
+	public void displayTickContent(int currentTick, User[] turn, Enemy[] enemies, ArrayList<ArrayList<String>> nextMoves) {
 		TickTemplate tickTemplate = new TickTemplate();
-		EmbedBuilder embed = tickTemplate.buildTickEmbed(this.currentEvent, currentTick, turn, nextMoves);
+		EmbedBuilder embed = tickTemplate.buildTickEmbed(this.currentEvent, currentTick, turn, enemies, nextMoves);
 		 currentEvent.getChannel().sendMessage(embed.build()).queue();
 		 embed.clear();
 		
@@ -209,3 +220,4 @@ public class DiscordView extends ListenerAdapter implements View {
 		
 	}
 }
+

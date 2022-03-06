@@ -42,7 +42,7 @@ public class Commands {
 	
 	//-----------------------------Valid ticks--------------------------------	
 	private final String validTickCmd[] =
-		{"create", "start", "next", "move", "set", "pos", "list", "join"};
+		{"create", "start", "next", "move", "set", "pos", "list", "join", "addenemy"};
 	
 	
 	private final String tickCreate[] = //create a new tickleiste
@@ -68,6 +68,9 @@ public class Commands {
 	
 	private final String tickList[] = //list the actions that are about to happen
 		{"list", "display", "show"};
+	
+	private final String tickAddEnemy[] = //adds a new Enemy to the tickbar
+		{"addenemy",};
 	
 	
 	public Commands() {
@@ -182,6 +185,8 @@ public class Commands {
 			command.setArgs(0,"set");
 		else if(Arrays.asList(tickJoin).contains(lcCommand))
 			command.setArgs(0,"join");
+		else if(Arrays.asList(tickAddEnemy).contains(lcCommand))
+			command.setArgs(0,"addenemy");
 		return command;
 		
 	

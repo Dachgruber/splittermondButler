@@ -2,6 +2,7 @@ package View;
 
 import java.util.ArrayList;
 
+import Model.Enemy;
 import Model.Roll;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -35,7 +36,7 @@ public interface View {
 
 	void displayTickNew();
 	
-	void displayTickContent(int i, User[] turn, ArrayList<ArrayList<String>> nextMoves);
+	void displayTickContent(int i, User[] turn, Enemy[] enemies, ArrayList<ArrayList<String>> nextMoves);
 
 	void displayTickStart(User[] playerNames, Integer[] integers);
 	
@@ -48,4 +49,6 @@ public interface View {
 	void displayGMRoll(Roll r);
 	
 	void displayBingo(String bingoResult);
+	
+	void askGM(String string);
 }

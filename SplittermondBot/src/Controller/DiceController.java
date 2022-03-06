@@ -106,10 +106,14 @@ public class DiceController implements Controller{
 						String secondCommand = command.getArgs()[0];
 						//check if current model as a tickbar, creates if 
 						if (secondCommand.equals("create")) {
-						this.model.newTickBar();
+							this.model.newTickBar();
+							this.view.askGM("Please add the enemies! Use !tick addenemy [enemyname] [initative]");
 						}
 						else if (secondCommand.equals("join")) {
 							this.model.joinPlayer(command.getArgs()[1]);
+						}
+						else if (secondCommand.equals("addenemy")) {
+							this.model.joinEnemy(command.getArgs()[1],command.getArgs()[2]);
 						}
 						else if (secondCommand.equals("next")) {
 							this.model.tick();

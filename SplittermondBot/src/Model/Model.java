@@ -30,4 +30,6 @@ public interface Model {
 	void listTickBar();
 
 	void showPosOfPlayer();
+
+	void joinEnemy(String name, String ini);
 }

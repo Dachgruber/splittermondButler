@@ -3,6 +3,7 @@ package View;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import Model.Enemy;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -28,15 +29,19 @@ public class TickTemplate {
 	 * @param event
 	 * @param currentTick 
 	 * @param turn
+	 * @param enemies 
 	 * @param nextMoves
 	 * @return
 	 */
-	public EmbedBuilder buildTickEmbed(GuildMessageReceivedEvent event, int currentTick, User[] turn, ArrayList<ArrayList<String>> nextMoves) {
+	public EmbedBuilder buildTickEmbed(GuildMessageReceivedEvent event, int currentTick, User[] turn, Enemy[] enemies, ArrayList<ArrayList<String>> nextMoves) {
 		
 		 embed.setTitle("We are at Tick: " + Integer.toString(currentTick));
 		 String desc = "";
 		 for (User entry : turn) {
 			 desc += "its " +  entry.getAsMention() + "turn!\n";
+		 }
+		 for (Enemy entry : enemies) {
+			 desc += "its " +  entry.getName() + "turn!\n";
 		 }
 		 embed.setDescription(desc);
 		 
