@@ -47,7 +47,7 @@ public class DiscordView extends ListenerAdapter implements View {
 	 * @throws LoginException
 	 */
 	private void initateBot() throws LoginException {
-		JDABuilder jda = JDABuilder.createDefault("ODYzMTQ4NjgxNjQ4Nzk5NzY1.YOir2g.cFTr9hgwljOHBBQvnqC4g478w_k");
+		JDABuilder jda = JDABuilder.createDefault("ODYzMTQ4NjgxNjQ4Nzk5NzY1.YOir2g.yE3E8bUcRFlm4eJqzoxgItk5lzs");
 		jda.setActivity(Activity.playing("Throwing Dice left, right and center"));
 		jda.setStatus(OnlineStatus.ONLINE);
 		jda.addEventListeners(this);
