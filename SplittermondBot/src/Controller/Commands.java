@@ -15,30 +15,59 @@ public class Commands {
 	private final String validOperator[] = 
 		{"+","-"};
 	
+	//-----------------------------Valid CMDs--------------------------------	
 	private final String validCommands[] =
 		//{"roll","giveRole","removeRole"};
 		{"roll","gmroll","giveRole","removeRole", "tick", "bingo"};
 	
-	private final String roll[] =
+	
+	private final String roll[] = //roll some dice
 		{"roll", "throw", "werfe", "würfel", "r", "würfle", "rolle"};
 	
-	private final String gmroll[] =
+	private final String gmroll[] = //roll some dice, but only for the gm
 		{"gmroll", "gmthrow", "gamemaster", "gm", "gmr"};
 	
-	private final String giveRole[] =
+	private final String giveRole[] = //assign a role
 		{"give", "get", "giveRole", "getRole"};
 		
-	private final String removeRole[] =
+	private final String removeRole[] = //remove said role
 		{"removeRole", "remove"};
 	
-	private final String tick[] =
+	private final String tick[] =	//do something with the tickleiste
 		{"tick", "tickleiste", "battle", "t"};
 
-	private final String bingo[] =
+	private final String bingo[] =	//play bullshit-bingo
 		{"bbb", "bullshit", "bingo", "bullshitbingo", "nik"};
-		
-	private final String tickCmd[] =
-		{"create", "start", "next", "move", "set", "pos", "list"};
+	
+	
+	//-----------------------------Valid ticks--------------------------------	
+	private final String validTickCmd[] =
+		{"create", "start", "next", "move", "set", "pos", "list", "join"};
+	
+	
+	private final String tickCreate[] = //create a new tickleiste
+		{"create", "new"};
+	
+	private final String tickStart[] = //start the battle
+		{ "start", "fight", "battle"};
+	
+	private final String tickJoin[] = //joins the leiste
+		{"join"};
+	
+	private final String tickNext[] = //move one step on the leiste
+		{"next", "tick", "step"};
+	
+	private final String tickMove[] = //move your character a set amount of ticks
+		{"move", "movechar"};
+	
+	private final String tickSet[] =  //set your character on a specific field
+		{"set"};
+	
+	private final String tickPos[] = //show your current position
+		{"pos", "position", "current", "me"};
+	
+	private final String tickList[] = //list the actions that are about to happen
+		{"list", "display", "show"};
 	
 	
 	public Commands() {
@@ -95,6 +124,7 @@ public class Commands {
 	/**
 	 * corrects spelling of command and returns standard command string
 	 * @param command
+	 * @param i 
 	 * @return string correct command
 	 */
 	public Command correctCommand(Command command) {
@@ -112,21 +142,51 @@ public class Commands {
 		else if(Arrays.asList(bingo).contains(lcCommand))
 			command.setCmd("bingo");
 		return command;
+		
 	}
 
 	/**
-	 * checks if a command is valid in context of the tick parent-cmd
-	 * @param secondCommand
+	 * checks if a command is valid in context of the tick parent-cmd. Only checks the second argument
+	 * @param Command cmd
 	 * @return
 	 */
-	public boolean checkvalidTickCommand(String secondCommand) {
+	public boolean checkvalidTickCommand(Command cmd) {
 		boolean valid = false;
-			if(Arrays.asList(tickCmd).contains(secondCommand)) {
+			if(Arrays.asList(validTickCmd).contains(cmd.getArgs()[0])) {
 				valid = true;
 			}
 		return valid;
 	}
+	/**
+	 * corrects the command in the context of the tick command. replaces the first argument in the args array
+	 * @param string
+	 * @return
+	 */
+	public Command correctTickCommand(Command command) {
+		
+		//get second word of the command, !tick create etc
+		String lcCommand = command.getArgs()[0].toLowerCase();
+		if(Arrays.asList(tickCreate).contains(lcCommand))
+			command.setArgs(0,"create");
+		else if(Arrays.asList(tickStart).contains(lcCommand))
+			command.setArgs(0,"start");
+		else if(Arrays.asList(tickNext).contains(lcCommand))
+			command.setArgs(0,"next");
+		else if(Arrays.asList(tickPos).contains(lcCommand))
+			command.setArgs(0,"pos");
+		else if(Arrays.asList(tickList).contains(lcCommand))
+			command.setArgs(0,"list");
+		else if(Arrays.asList(tickMove).contains(lcCommand))
+			command.setArgs(0,"move");
+		else if(Arrays.asList(tickSet).contains(lcCommand))
+			command.setArgs(0,"set");
+		else if(Arrays.asList(tickJoin).contains(lcCommand))
+			command.setArgs(0,"join");
+		return command;
+		
 	
+	}
+
 	/**
 	 * checks if the command acts as a valid roll command.
 	 * A command is considered valid if either no args are given (default roll) or 2 Integers split with a W is given (2W10 etc)
@@ -183,14 +243,5 @@ public class Commands {
 		}
 		
 	}
-/**
- * corrects a string to a corresponding tick command, currently not in used
- * @deprecated
- * @param string
- * @return
- */
-	public String correctTickCommand(String string) {
-		// TODO Auto-generated method stub
-		return null;
-}
+
 }
