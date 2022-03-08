@@ -31,7 +31,7 @@ public class DiscordView extends ListenerAdapter implements View {
 
 	private Controller cntrl;
 	private GuildMessageReceivedEvent currentEvent;
-	private final String TOKEN_PATH = "txt\bottoken.txt";
+	private final String TOKEN_PATH = "txt/bottoken.txt";
 	private final String GM_ROLENAME = "Gamemaster";
 	private final String PARTICIPANT_ROLENAME = "Participant";
 	
