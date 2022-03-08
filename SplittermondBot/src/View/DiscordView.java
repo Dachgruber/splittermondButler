@@ -1,6 +1,9 @@
 package View;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +19,6 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -29,6 +31,7 @@ public class DiscordView extends ListenerAdapter implements View {
 
 	private Controller cntrl;
 	private GuildMessageReceivedEvent currentEvent;
+	private final String TOKEN_PATH = "txt\bottoken.txt";
 	private final String GM_ROLENAME = "Gamemaster";
 	private final String PARTICIPANT_ROLENAME = "Participant";
 	
@@ -47,7 +50,8 @@ public class DiscordView extends ListenerAdapter implements View {
 	 * @throws LoginException
 	 */
 	private void initateBot() throws LoginException {
-		JDABuilder jda = JDABuilder.createDefault("ODYzMTQ4NjgxNjQ4Nzk5NzY1.YOir2g.yE3E8bUcRFlm4eJqzoxgItk5lzs");
+		
+		JDABuilder jda = JDABuilder.createDefault(this.loadToken());
 		jda.setActivity(Activity.playing("Throwing Dice left, right and center"));
 		jda.setStatus(OnlineStatus.ONLINE);
 		jda.addEventListeners(this);
@@ -60,6 +64,25 @@ public class DiscordView extends ListenerAdapter implements View {
 		
 	}
 		
+	private String loadToken() {
+		String returnString = "";
+		try {
+            FileReader reader = new FileReader(TOKEN_PATH);
+            BufferedReader bufferedReader = new BufferedReader(reader);
+ 
+            String line;
+ 
+            while ((line = bufferedReader.readLine()) != null) {
+               returnString += line;
+            }
+            reader.close();
+ 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+		return returnString;
+	}
+	
 	/**
 	 * required implementation of the listener
 	 */
