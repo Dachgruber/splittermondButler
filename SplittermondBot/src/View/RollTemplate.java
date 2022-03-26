@@ -126,39 +126,28 @@ public class RollTemplate {
 //	}
 	
 	private boolean testIfGood(int[] resultList, int bestPossible) {
-		boolean goodThrow = false;
 		boolean firstGoodThrowCatched = false;
 		for (int i = 0; i <resultList.length; i++) {
+			//only check if ...
 			 if (resultList[i] == bestPossible || resultList[i] ==  bestPossible-1) {
-				 if (!firstGoodThrowCatched) {
-					 firstGoodThrowCatched = true;
-				 }
-				 else {
-					 goodThrow = true;
-					 break;
-				 }
+			 	//if the ....
+				 if (!firstGoodThrowCatched) firstGoodThrowCatched = true;
+				 else return true;
 			 }
 		}
-		return goodThrow;
-			 
+		//default is false
+		return false;
 	}
 	
 	private boolean testIfBad(int[] resultList) {
-		boolean badThrow = false;
 		boolean firstBadThrowCatched = false;
 		for (int i = 0; i <resultList.length; i++) {
 			 if (resultList[i] == 0 || resultList[i] ==  1) {
-				 if (!firstBadThrowCatched) {
-					 firstBadThrowCatched = true;
-				 }
-				 else {
-					 badThrow = true;
-					 break;
-				 }
+				 if (!firstBadThrowCatched) firstBadThrowCatched = true;
+				 else return true;
 			 }
 		}
-		return badThrow;
-			 
+		return false;
 	}
 	
 	private String makeListToString(int[] resultList) {

@@ -28,17 +28,12 @@ public class DiceModel implements Model {
 //------------------------------Dice Section-------------------------------------
 	@Override
 	public Roll rollDice(Integer[] args) {
-		Roll r = new Roll(args[0],args[1]);
-		r.RollTheDice();
-		return r;
+		return new Roll(args[0],args[1]).RollTheDice();
 	}
 	
 	@Override
 	public Roll rollDice(Integer[] args, String[] calcArgs ) {
-		Roll r = new Roll(args[0],args[1]);
-		r.RollTheDice();
-		r.calcResult(calcArgs[0], calcArgs[1]);
-		return r;
+		return new Roll(args[0],args[1]).RollTheDice().calcResult(calcArgs[0], calcArgs[1]);
 	}
 //------------------------------BullshitBingo Section----------------------------------
 	@Override
@@ -77,9 +72,11 @@ public class DiceModel implements Model {
 	public void joinEnemy(String name, String ini) {
 		System.out.println(name + ini);
 		Enemy en = new Enemy(name, Integer.parseInt(ini));
-		Roll r = new Roll(1, 6);
-		r.RollTheDice();
-		int result = r.getResult();
+
+		//Roll new dices and get their result
+		int result = new Roll(1, 6).RollTheDice().getResult();
+
+		//calc their position on the board
 		int pos = en.getIni() - result ;
 		this.tb.joinEnemy(en, pos);
 		String replyStr = en.getName() + " joined at pos "
@@ -93,9 +90,11 @@ public class DiceModel implements Model {
 	@Override
 	public void joinPlayer(String string) {
 		User player = this.view.getCurrentEvent().getAuthor();
-		Roll r = new Roll(1, 6);
-		r.RollTheDice();
-		int result = r.getResult();
+
+		//Roll new dices and get their result
+		int result = new Roll(1, 6).RollTheDice().getResult();
+
+		//calc their position on the board
 		int pos = Integer.parseInt(string) - result ;
 		this.tb.joinPlayer(player, pos);
 		String replyStr = "You joined at pos "

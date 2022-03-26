@@ -12,10 +12,7 @@ public class Dice {
 	}
 	
 	public int rollDice() {
-		int result = randomGenerator.nextInt(sides)+1;
-		
-		return result;
-				
+		return randomGenerator.nextInt(sides)+1;
 	}
 	
 }
