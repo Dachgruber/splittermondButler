@@ -70,7 +70,6 @@ public class Command {
 	}
 	
 	public String getRawCommand() {
-		String returnString = prefix + cmd + ArrayUtils.toString(args);
-		return returnString;
+		return prefix + cmd + ArrayUtils.toString(args);
 	}
 }

@@ -22,7 +22,7 @@ public class Commands {
 	
 	
 	private final String roll[] = //roll some dice
-		{"roll", "throw", "werfe", "würfel", "r", "würfle", "rolle"};
+		{"roll", "throw", "werfe", "wï¿½rfel", "r", "wï¿½rfle", "rolle"};
 	
 	private final String gmroll[] = //roll some dice, but only for the gm
 		{"gmroll", "gmthrow", "gamemaster", "gm", "gmr"};
@@ -199,19 +199,15 @@ public class Commands {
 	 * @return
 	 */
 	public boolean checkValidRoll(String[] args) {
-		boolean valid = false;
-		if (args.length == 0) {
-			valid = true;
-		}
-		else {
-			String[] parts = args[0].split("W");
-			if (this.isInteger(parts[0]))
-				if(this.isInteger(parts[1]))
-					valid = true;
-		}
-	
-			
-		return valid;
+		//check for case with no args
+		if (args.length == 0) return true;
+
+		//else check for the second condition
+		String[] parts = args[0].split("W");
+		if(this.isInteger(parts[0]) && this.isInteger(parts[1])) return true;
+
+		//command was not valid
+		return false;
 	}
 	
 	/**

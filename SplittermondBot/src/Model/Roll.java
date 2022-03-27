@@ -54,7 +54,8 @@ public class Roll {
 	
 	public void calcResult() {
 		int newResult = 0;
-		for ( int n = 0; n < this.resultField.length; n++) {
+		int length = resultField.length;
+		for ( int n = 0; n < length; n++) {
 			newResult += resultField[n];
 		}
 		this.result = newResult;
