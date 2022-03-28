@@ -38,7 +38,7 @@ public class Roll {
 		}
 	}
 	
-	public void RollTheDice() {
+	public Roll RollTheDice() {
 		
 		this.resultField = new int[this.diceAmount];
 		
@@ -49,6 +49,7 @@ public class Roll {
 			}
 		this.calcResult();
 		
+		return this;
 	}
 	
 	
