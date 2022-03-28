@@ -4,47 +4,47 @@ import org.w3c.dom.Entity;
 
 /**
  * an enemy is a simple entity with a name, a initiative and some optional description
- * @author Cornelius
  *
+ * @author Cornelius
  */
 public class Enemy {
-	
-	String name;
-	String desc;
-	int ini;
-	
-	public Enemy(String name,int ini) {
-		this.name = name;
-		this.ini = ini;
-	}
 
-	public Enemy(String name,String desc, int ini) {
-		this.name = name;
-		this.desc = desc;
-		this.ini = ini;
-	}
+    String name;
+    String desc;
+    int ini;
 
-	public String getName() {
-		return name;
-	}
+    public Enemy(String name, int ini) {
+        this.name = name;
+        this.ini = ini;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public Enemy(String name, String desc, int ini) {
+        this.name = name;
+        this.desc = desc;
+        this.ini = ini;
+    }
 
-	public String getDesc() {
-		return desc;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setDesc(String desc) {
-		this.desc = desc;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public int getIni() {
-		return ini;
-	}
+    public String getDesc() {
+        return desc;
+    }
 
-	public void setIni(int ini) {
-		this.ini = ini;
-	}
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public int getIni() {
+        return ini;
+    }
+
+    public void setIni(int ini) {
+        this.ini = ini;
+    }
 }
