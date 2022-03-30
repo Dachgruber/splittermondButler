@@ -23,4 +23,7 @@ Discord-Bot built on JDA for use in Discord-based online PnP servers. Created fo
 ### Linux
 - WIP
 
+### Wanna build from source?
+-Clone the repo and use the src-folder
+-the mainclass is located in the main-package as BotStartup.java
 
