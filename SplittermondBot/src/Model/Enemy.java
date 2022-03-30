@@ -1,7 +1,5 @@
 package Model;
 
-import org.w3c.dom.Entity;
-
 /**
  * an enemy is a simple entity with a name, a initiative and some optional description
  *

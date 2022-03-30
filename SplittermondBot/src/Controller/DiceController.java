@@ -1,16 +1,10 @@
 package Controller;
 
-import javax.security.auth.login.LoginException;
-
 import Model.DiceModel;
 import Model.Model;
 import Model.Roll;
 import View.DiscordView;
-import View.RollTemplate;
 import View.View;
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 /**
  * The DiceController manages the input command and executes the corresponding functions of the model

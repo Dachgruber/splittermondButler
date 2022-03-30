@@ -3,13 +3,6 @@ package Model;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.Scanner;
-import java.util.stream.Stream;
 
 import View.View;
 import net.dv8tion.jda.api.entities.User;

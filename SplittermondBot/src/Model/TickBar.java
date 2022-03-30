@@ -32,10 +32,10 @@ public class TickBar {
      */
     public TickBar() {
         this.currentTick = 0;
-        this.players = new ArrayList<User>();
-        this.enemies = new ArrayList<Enemy>();
-        this.enemyPos = new ArrayList<Integer>();
-        this.playerPos = new ArrayList<Integer>();
+        this.players = new ArrayList<>();
+        this.enemies = new ArrayList<>();
+        this.enemyPos = new ArrayList<>();
+        this.playerPos = new ArrayList<>();
     }
 
     /**
@@ -87,13 +87,13 @@ public class TickBar {
      * @return ArrayLists of every user acting on the corresponding tick
      */
     public ArrayList<ArrayList<String>> getNextMoves(int length) {
-        ArrayList<ArrayList<String>> lines = new ArrayList<ArrayList<String>>();
+        ArrayList<ArrayList<String>> lines = new ArrayList<>();
 
         //we only look at the next few moves....
         for (int i = 0; i < length; i++) {
 
             //create the entry array and add the current move
-            ArrayList<String> entry = new ArrayList<String>();
+            ArrayList<String> entry = new ArrayList<>();
             entry.add(Integer.toString(this.getCurrentTick() + i) + ":");
 
             //for every move get the players that are positioned at that pos
@@ -178,7 +178,7 @@ public class TickBar {
      * @return
      */
     private User[] getPlayersAtPos(int pos) {
-        ArrayList<User> returnArray = new ArrayList<User>();
+        ArrayList<User> returnArray = new ArrayList<>();
         for (int entry : playerPos) {
             if (entry == pos)
                 returnArray.add(players.get(playerPos.indexOf(entry)));
@@ -232,7 +232,7 @@ public class TickBar {
      * @return
      */
     private Enemy[] getEnemiesAtPos(int pos) {
-        ArrayList<Enemy> returnArray = new ArrayList<Enemy>();
+        ArrayList<Enemy> returnArray = new ArrayList<>();
         for (int entry : enemyPos) {
             if (entry == pos)
                 returnArray.add(enemies.get(enemyPos.indexOf(entry)));

@@ -1,7 +1,6 @@
 package Controller;
 
 import java.util.Arrays;
-import java.util.Scanner;
 
 /**
  * this class validates the given command and can correct a command to the corresponding correct command
@@ -102,7 +101,7 @@ public class Commands {
     }
 
     /**
-     * checks if a command contains a valid calculaton as in 2W10 + 13 etc
+     * checks if a command contains a valid calculation as in 2W10 + 13 etc
      *
      * @param command string
      * @return true if command is valid
