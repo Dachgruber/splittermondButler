@@ -62,7 +62,7 @@ public class Roll {
 		this.result = newResult;
 	}
 	
-	public void calcResult(String operator, String calcArg) {
+	public Roll calcResult(String operator, String calcArg) {
 		
 		int newResult = 0;
 		for ( int n = 0; n < this.resultField.length; n++) {
@@ -80,6 +80,8 @@ public class Roll {
 		}
 		
 		this.result = newResult;
+		
+		return this;
 	}
 	
 	public int getDiceAmount() {
