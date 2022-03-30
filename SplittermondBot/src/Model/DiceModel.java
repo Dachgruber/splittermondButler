@@ -15,159 +15,155 @@ import View.View;
 import net.dv8tion.jda.api.entities.User;
 
 public class DiceModel implements Model {
+    TickBar tb;
+    View view;
 
-	TickBar tb;
-	View view;
-	
+    final String BULLSHIT_PATH = "txt/bullshit.txt";
 
-	final String BULLSHIT_PATH = "txt/bullshit.txt";
-	
-	public DiceModel(View view) {
-		this.view = view;
-	}
-//------------------------------Dice Section-------------------------------------
-	@Override
-	public Roll rollDice(Integer[] args) {
-		return new Roll(args[0],args[1]).RollTheDice();
-	}
-	
-	@Override
-	public Roll rollDice(Integer[] args, String[] calcArgs ) {
-		return new Roll(args[0],args[1]).RollTheDice().calcResult(calcArgs[0], calcArgs[1]);
-	}
-//------------------------------BullshitBingo Section----------------------------------
-	@Override
-	public String rollBingo() {
-		String[] items = null;
-		String result = "bullshitbingo failed";
-		try {
-			items = loadFileAsString(BULLSHIT_PATH).split(";"); //The Items are separated in the txt by an ;
-			
-			System.out.println("Bingo rolled, length, result");
-			System.out.println(items.length-1); 
-			
-			Roll bbroll = new Roll(1,items.length-1); // -1 as the last item in the array it always empty
-			bbroll.RollTheDice();
-			
-			System.out.println(bbroll.getResult());
-			
-			result = items[bbroll.getResult()-1]; // as the dice results start with 1, not 0
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		return result;
-		
-	}
-	
-//------------------------------TickBar Section----------------------------------
-	@Override
-	public void newTickBar() {
-		tb = new TickBar();
-		this.view.displayTickNew();
-		
-	}
-	
-	@Override
-	public void joinEnemy(String name, String ini) {
-		System.out.println(name + ini);
-		Enemy en = new Enemy(name, Integer.parseInt(ini));
+    public DiceModel(View view) {
+        this.view = view;
+    }
 
-		//Roll new dices and get their result
-		int result = new Roll(1, 6).RollTheDice().getResult();
+    //------------------------------Dice Section-------------------------------------
+    @Override
+    public Roll rollDice(Integer[] args) {
+        return new Roll(args[0], args[1]).RollTheDice();
+    }
 
-		//calc their position on the board
-		int pos = en.getIni() - result ;
-		this.tb.joinEnemy(en, pos);
-		String replyStr = en.getName() + " joined at pos "
-				+ Integer.toString(pos) 
-				+ " while rolling a "
-				+ Integer.toString(result);
-		this.view.reply(replyStr);
-	
-	}
-	
-	@Override
-	public void joinPlayer(String string) {
-		User player = this.view.getCurrentEvent().getAuthor();
+    @Override
+    public Roll rollDice(Integer[] args, String[] calcArgs) {
+        return new Roll(args[0], args[1]).RollTheDice().calcResult(calcArgs[0], calcArgs[1]);
+    }
 
-		//Roll new dices and get their result
-		int result = new Roll(1, 6).RollTheDice().getResult();
+    //------------------------------BullshitBingo Section----------------------------------
+    @Override
+    public String rollBingo() {
+        String[] items = null;
+        String result = "bullshitbingo failed";
+        try {
+            items = loadFileAsString(BULLSHIT_PATH).split(";"); //The Items are separated in the txt by an ;
 
-		//calc their position on the board
-		int pos = Integer.parseInt(string) - result ;
-		this.tb.joinPlayer(player, pos);
-		String replyStr = "You joined at pos "
-				+ Integer.toString(pos) 
-				+ " while rolling a "
-				+ Integer.toString(result);
-		this.view.reply(replyStr);
-	
-	}
+            System.out.println("Bingo rolled, length, result");
+            System.out.println(items.length - 1);
 
-	@Override
-	public void tick() {
-		this.tb.tick();
-		this.view.displayTickContent(this.tb.getCurrentTick(), this.tb.getPlayerTurn(), this.tb.getEnemyTurn(), this.tb.getNextMoves(5));
-		
-	}
-	
-	@Override
-	public void startBattle() {
-		if (tb != null) {
-			tb.start();
-			this.view.displayTickStart(this.tb.getPlayers(), this.tb.getPlayerPos());
-			this.view.displayTickContent(this.tb.getCurrentTick(), this.tb.getPlayerTurn(), this.tb.getEnemyTurn(), this.tb.getNextMoves(5));
-		}
-		else {
-			this.view.displayMsg("you funcking twat - there is no tickbar to start");
-		}
-	}
-	
-	@Override
-	public void movePlayer(String string) {
-		User player = this.view.getCurrentEvent().getAuthor();
-		int pos = Integer.parseInt(string);
-		this.tb.movePlayer(player, pos);
-		String replyStr = "You moved to pos "
-				+ Integer.toString(pos); 
-		this.view.reply(replyStr);
-	}
-	
-	@Override
-	public void listTickBar() {
-		this.view.displayTickContent(this.tb.getCurrentTick(), this.tb.getPlayerTurn(), this.tb.getEnemyTurn(), this.tb.getNextMoves(10));
-		
-	}
-	@Override
-	public void showPosOfPlayer() {
-		int pos = tb.getPositionOfUser(this.view.getCurrentEvent().getAuthor());
-		this.view.displayTickPosition(pos);
-		
-	}
-//------------------------------Role Section----------------------------------	
-	@Override
-	public void giveRole() {
-		// TODO Auto-generated method stub
+            Roll bbroll = new Roll(1, items.length - 1); // -1 as the last item in the array it always empty
+            bbroll.RollTheDice();
 
-	}
+            System.out.println(bbroll.getResult());
 
-	@Override
-	public void removeRole() {
-		// TODO Auto-generated method stub
+            result = items[bbroll.getResult() - 1]; // as the dice results start with 1, not 0
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-	}
-	
+        return result;
 
-	/**
-	 * Loads a file and glues every line onto a long String
-	 * @param filepath location if file
-	 * @return content of file in String
-	 * @throws IOException
-	 */
-	private String loadFileAsString(String filepath) throws IOException{
-		String path = filepath;
-		try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+    }
+
+    //------------------------------TickBar Section----------------------------------
+    @Override
+    public void newTickBar() {
+        tb = new TickBar();
+        this.view.displayTickNew();
+    }
+
+    @Override
+    public void joinEnemy(String name, String ini) {
+        System.out.println(name + ini);
+        Enemy en = new Enemy(name, Integer.parseInt(ini));
+
+        //Roll new dices and get their result
+        int result = new Roll(1, 6).RollTheDice().getResult();
+
+        //calc their position on the board
+        int pos = en.getIni() - result;
+        this.tb.joinEnemy(en, pos);
+        String replyStr = en.getName() + " joined at pos "
+                + Integer.toString(pos)
+                + " while rolling a "
+                + Integer.toString(result);
+        this.view.reply(replyStr);
+
+    }
+
+    @Override
+    public void joinPlayer(String string) {
+        User player = this.view.getCurrentEvent().getAuthor();
+
+        //Roll new dices and get their result
+        int result = new Roll(1, 6).RollTheDice().getResult();
+
+        //calc their position on the board
+        int pos = Integer.parseInt(string) - result;
+        this.tb.joinPlayer(player, pos);
+        String replyStr = "You joined at pos "
+                + Integer.toString(pos)
+                + " while rolling a "
+                + Integer.toString(result);
+        this.view.reply(replyStr);
+    }
+
+    @Override
+    public void tick() {
+        this.tb.tick();
+        this.view.displayTickContent(this.tb.getCurrentTick(), this.tb.getPlayerTurn(), this.tb.getEnemyTurn(), this.tb.getNextMoves(5));
+    }
+
+    @Override
+    public void startBattle() {
+        if (tb != null) {
+            tb.start();
+            this.view.displayTickStart(this.tb.getPlayers(), this.tb.getPlayerPos());
+            this.view.displayTickContent(this.tb.getCurrentTick(), this.tb.getPlayerTurn(), this.tb.getEnemyTurn(), this.tb.getNextMoves(5));
+        } else {
+            this.view.displayMsg("you funcking twat - there is no tickbar to start");
+        }
+    }
+
+    @Override
+    public void movePlayer(String string) {
+        User player = this.view.getCurrentEvent().getAuthor();
+        int pos = Integer.parseInt(string);
+        this.tb.movePlayer(player, pos);
+        String replyStr = "You moved to pos "
+                + Integer.toString(pos);
+        this.view.reply(replyStr);
+    }
+
+    @Override
+    public void listTickBar() {
+        this.view.displayTickContent(this.tb.getCurrentTick(), this.tb.getPlayerTurn(), this.tb.getEnemyTurn(), this.tb.getNextMoves(10));
+
+    }
+
+    @Override
+    public void showPosOfPlayer() {
+        int pos = tb.getPositionOfUser(this.view.getCurrentEvent().getAuthor());
+        this.view.displayTickPosition(pos);
+    }
+
+    //------------------------------Role Section----------------------------------
+    @Override
+    public void giveRole() {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void removeRole() {
+        // TODO Auto-generated method stub
+    }
+
+
+    /**
+     * Loads a file and glues every line onto a long String
+     *
+     * @param filepath location if file
+     * @return content of file in String
+     * @throws IOException
+     */
+    private String loadFileAsString(String filepath) throws IOException {
+        String path = filepath;
+        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
 
             String line = br.readLine();
             StringBuilder sb = new StringBuilder();
@@ -179,7 +175,6 @@ public class DiceModel implements Model {
 
             String fileAsString = sb.toString();
             return fileAsString;
-		}
-	}
-
+        }
+    }
 }

@@ -1,35 +1,36 @@
 package Model;
 
 public interface Model {
-	
-	/**
-	 * rolls a set of dice
-	 * @param args
-	 * @return
-	 */
-	Roll rollDice(Integer[] args);
-	
-	Roll rollDice(Integer[] args, String[] calcArgs);
-	
-	String rollBingo();
-	
-	void giveRole();
-	
-	void removeRole();
 
-	void newTickBar();
+    /**
+     * rolls a set of dice
+     *
+     * @param args
+     * @return
+     */
+    Roll rollDice(Integer[] args);
 
-	void joinPlayer(String string);
+    Roll rollDice(Integer[] args, String[] calcArgs);
 
-	void tick();
-	
-	void startBattle();
+    String rollBingo();
 
-	void movePlayer(String string);
+    void giveRole();
 
-	void listTickBar();
+    void removeRole();
 
-	void showPosOfPlayer();
+    void newTickBar();
 
-	void joinEnemy(String name, String ini);
+    void joinPlayer(String string);
+
+    void tick();
+
+    void startBattle();
+
+    void movePlayer(String string);
+
+    void listTickBar();
+
+    void showPosOfPlayer();
+
+    void joinEnemy(String name, String ini);
 }
