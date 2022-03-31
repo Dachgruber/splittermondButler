@@ -12,6 +12,7 @@ import javax.security.auth.login.LoginException;
 import controller.Controller;
 import model.Roll;
 import model.tickbar.Enemy;
+import model.tickbar.Player;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -174,18 +175,18 @@ public class DiscordView extends ListenerAdapter implements View {
 
 
     @Override
-    public void displayTickContent(int currentTick, User[] turn, Enemy[] enemies, ArrayList<ArrayList<String>> nextMoves) {
+    public void displayTickContent(int currentTick, String turns, ArrayList<ArrayList<String>> nextMoves) {
         TickTemplate tickTemplate = new TickTemplate();
-        EmbedBuilder embed = tickTemplate.buildTickEmbed(this.currentEvent, currentTick, turn, enemies, nextMoves);
+        EmbedBuilder embed = tickTemplate.buildTickEmbed(this.currentEvent, currentTick, turns, nextMoves);
         currentEvent.getChannel().sendMessage(embed.build()).queue();
         embed.clear();
 
     }
 
     @Override
-    public void displayTickStart(User[] playerNames, Integer[] playerPos) {
+    public void displayTickStart(ArrayList<String> players) {
         TickTemplate tickTemplate = new TickTemplate();
-        EmbedBuilder embed = tickTemplate.buildStartingEmbed(this.currentEvent, playerNames, playerPos);
+        EmbedBuilder embed = tickTemplate.buildStartingEmbed(this.currentEvent, players);
         currentEvent.getChannel().sendMessage(embed.build()).queue();
         embed.clear();
 

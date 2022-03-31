@@ -1,35 +1,22 @@
 package model.tickbar;
 
 /**
- * an enemy is a simple entity with a name, a initiative and some optional description
+ * an enemy is an item on the tickbar that acts the same way as a player, but implements a short description
  *
  * @author Cornelius
  */
-public class Enemy {
+public class Enemy extends Item{
 
-    String name;
-    String desc;
-    int ini;
+	private String desc;
 
-    public Enemy(String name, int ini) {
-        this.name = name;
-        this.ini = ini;
-    }
-
-    public Enemy(String name, String desc, int ini) {
-        this.name = name;
+    public Enemy(int pos, String name, String desc) {
+    	super(pos, name);
         this.desc = desc;
-        this.ini = ini;
+        this.setType(ItemType.ENEMY);
     }
 
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    //getters and setters
     public String getDesc() {
         return desc;
     }
@@ -38,11 +25,5 @@ public class Enemy {
         this.desc = desc;
     }
 
-    public int getIni() {
-        return ini;
-    }
 
-    public void setIni(int ini) {
-        this.ini = ini;
-    }
 }

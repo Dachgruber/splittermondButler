@@ -5,12 +5,13 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import model.tickbar.Enemy;
+import model.tickbar.TickBar;
 import model.tickbar.Controller;
 import net.dv8tion.jda.api.entities.User;
 import view.View;
 
 public class DiceModel implements Model {
-    Controller tb;
+    TickBar tb;
     View view;
 
     final String BULLSHIT_PATH = "txt/bullshit.txt";
@@ -64,16 +65,15 @@ public class DiceModel implements Model {
 
     @Override
     public void joinEnemy(String name, String ini) {
-        System.out.println(name + ini);
-        Enemy en = new Enemy(name, Integer.parseInt(ini));
 
         //Roll new dices and get their result
         int result = new Roll(1, 6).RollTheDice().getResult();
-
-        //calc their position on the board
-        int pos = en.getIni() - result;
-        this.tb.joinEnemy(en, pos);
-        String replyStr = en.getName() + " joined at pos "
+        int pos = Integer.parseInt(ini) - result;
+        
+        
+        //put the enemy on the board
+        this.tb.addEnemy(pos , name, "This is a default desctiption"); //TODO update description
+        String replyStr = name + " joined at pos "
                 + Integer.toString(pos)
                 + " while rolling a "
                 + Integer.toString(result);
@@ -90,7 +90,7 @@ public class DiceModel implements Model {
 
         //calc their position on the board
         int pos = Integer.parseInt(string) - result;
-        this.tb.joinPlayer(player, pos);
+        this.tb.addPlayer(pos,player);
         String replyStr = "You joined at pos "
                 + Integer.toString(pos)
                 + " while rolling a "
@@ -101,15 +101,15 @@ public class DiceModel implements Model {
     @Override
     public void tick() {
         this.tb.tick();
-        this.view.displayTickContent(this.tb.getCurrentTick(), this.tb.getPlayerTurn(), this.tb.getEnemyTurn(), this.tb.getNextMoves(5));
+        this.view.displayTickContent(this.tb.getCurrentTick(), this.tb.getCurrentTurn(), this.tb.getNextMoves(5));
     }
 
     @Override
     public void startBattle() {
         if (tb != null) {
             tb.start();
-            this.view.displayTickStart(this.tb.getPlayers(), this.tb.getPlayerPos());
-            this.view.displayTickContent(this.tb.getCurrentTick(), this.tb.getPlayerTurn(), this.tb.getEnemyTurn(), this.tb.getNextMoves(5));
+            this.view.displayTickStart(this.tb.getStartingPlayersAsMentions());
+            this.view.displayTickContent(this.tb.getCurrentTick(), this.tb.getCurrentTurn(), this.tb.getNextMoves(5));
         } else {
             this.view.displayMsg("you funcking twat - there is no tickbar to start");
         }
@@ -127,13 +127,13 @@ public class DiceModel implements Model {
 
     @Override
     public void listTickBar() {
-        this.view.displayTickContent(this.tb.getCurrentTick(), this.tb.getPlayerTurn(), this.tb.getEnemyTurn(), this.tb.getNextMoves(10));
+        this.view.displayTickContent(this.tb.getCurrentTick(), this.tb.getCurrentTurn(), this.tb.getNextMoves(10));
 
     }
 
     @Override
     public void showPosOfPlayer() {
-        int pos = tb.getPositionOfUser(this.view.getCurrentEvent().getAuthor());
+        int pos = tb.getPosOfPlayer(this.view.getCurrentEvent().getAuthor());
         this.view.displayTickPosition(pos);
     }
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import model.Roll;
 import model.tickbar.Enemy;
+import model.tickbar.Player;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -40,9 +41,9 @@ public interface View {
 
     void displayTickNew();
 
-    void displayTickContent(int i, User[] turn, Enemy[] enemies, ArrayList<ArrayList<String>> nextMoves);
+    void displayTickContent(int i, String turnsAtTick, ArrayList<ArrayList<String>> nextMoves);
 
-    void displayTickStart(User[] playerNames, Integer[] integers);
+    void displayTickStart(ArrayList<String> playerNames);
 
     void displayTickPosition(int pos);
 

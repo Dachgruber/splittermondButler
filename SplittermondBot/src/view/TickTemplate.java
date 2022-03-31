@@ -2,8 +2,10 @@ package view;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Random;
 
 import model.tickbar.Enemy;
+import model.tickbar.Player;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -33,16 +35,15 @@ public class TickTemplate {
      * @param nextMoves
      * @return
      */
-    public EmbedBuilder buildTickEmbed(GuildMessageReceivedEvent event, int currentTick, User[] turn, Enemy[] enemies, ArrayList<ArrayList<String>> nextMoves) {
+    public EmbedBuilder buildTickEmbed(GuildMessageReceivedEvent event, int currentTick, String turns, ArrayList<ArrayList<String>> nextMoves) {
 
         embed.setTitle("We are at Tick: " + Integer.toString(currentTick));
         String desc = "";
-        for (User entry : turn) {
-            desc += "its " + entry.getAsMention() + "turn!\n";
+        String[] turn = turns.split(",");
+        for (String entry : turn) {
+            desc += "its " + entry + " turn!\n";
         }
-        for (Enemy entry : enemies) {
-            desc += "its " + entry.getName() + "turn!\n";
-        }
+        
         embed.setDescription(desc);
 
         String moves = "";
@@ -63,12 +64,12 @@ public class TickTemplate {
         return embed;
     }
 
-    public EmbedBuilder buildStartingEmbed(GuildMessageReceivedEvent event, User[] playerNames, Integer[] playerPos) {
+    public EmbedBuilder buildStartingEmbed(GuildMessageReceivedEvent event, ArrayList<String> playerNames) {
 
         embed.setTitle("The Fight starts!");
         String desc = "";
-        for (int i = 0; i < playerNames.length; i++) {
-            desc += playerNames[i].getAsMention() + " fights, starting at " + Integer.toString(playerPos[i]) + "\n";
+        for (int i = 0; i < playerNames.size(); i++) {
+            desc += playerNames.get(i) + " " + this.getRandomTaunt() + "\n";
         }
         embed.setDescription(desc);
 
@@ -76,6 +77,12 @@ public class TickTemplate {
         //embed.setFooter("Splittermond-Rollbutler, created by" + event.getGuild().getOwner().getAsMention() , event.getGuild().getOwner().getUser().getAvatarUrl());
 
         return embed;
+    }
+    
+    private String getRandomTaunt() {
+    	String[] taunts = {"fights", "starts in the battle", "is ready to clash", "wants to brawl", "is giga tylt", "is ready to rumble"};
+    	Random rand = new Random();
+        return taunts[rand.nextInt(taunts.length)];
     }
 
     private boolean testIfGood(int[] resultList, int bestPossible) {
