@@ -2,8 +2,8 @@ package view;
 
 import java.util.ArrayList;
 
-import model.Enemy;
 import model.Roll;
+import model.tickbar.Enemy;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 

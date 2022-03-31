@@ -3,7 +3,7 @@ package view;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import model.Enemy;
+import model.tickbar.Enemy;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;

@@ -1,4 +1,4 @@
-package model;
+package model.tickbar;
 
 import java.util.ArrayList;
 import java.util.Collections;

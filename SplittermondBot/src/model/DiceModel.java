@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+import model.tickbar.Enemy;
+import model.tickbar.TickBar;
 import net.dv8tion.jda.api.entities.User;
 import view.View;
 

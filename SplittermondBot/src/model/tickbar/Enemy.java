@@ -1,4 +1,4 @@
-package model;
+package model.tickbar;
 
 /**
  * an enemy is a simple entity with a name, a initiative and some optional description
