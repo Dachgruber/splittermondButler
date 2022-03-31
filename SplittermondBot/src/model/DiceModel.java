@@ -1,11 +1,11 @@
-package Model;
+package model;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-import View.View;
 import net.dv8tion.jda.api.entities.User;
+import view.View;
 
 public class DiceModel implements Model {
     TickBar tb;

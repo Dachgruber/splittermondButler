@@ -1,4 +1,4 @@
-package View;
+package view;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -9,9 +9,9 @@ import java.util.List;
 
 import javax.security.auth.login.LoginException;
 
-import Controller.Controller;
-import Model.Enemy;
-import Model.Roll;
+import controller.Controller;
+import model.Enemy;
+import model.Roll;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;

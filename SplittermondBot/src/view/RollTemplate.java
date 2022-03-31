@@ -1,8 +1,8 @@
-package View;
+package view;
 
 import java.awt.Color;
 
-import Model.Roll;
+import model.Roll;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 

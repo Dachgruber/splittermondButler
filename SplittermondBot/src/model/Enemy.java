@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 /**
  * an enemy is a simple entity with a name, a initiative and some optional description

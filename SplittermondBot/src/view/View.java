@@ -1,9 +1,9 @@
-package View;
+package view;
 
 import java.util.ArrayList;
 
-import Model.Enemy;
-import Model.Roll;
+import model.Enemy;
+import model.Roll;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 

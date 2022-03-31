@@ -1,6 +1,6 @@
-package Model;
+package model;
 
-import View.RollTemplate;
+import view.RollTemplate;
 
 public class Roll {
 

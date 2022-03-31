@@ -1,10 +1,10 @@
-package Controller;
+package controller;
 
-import Model.DiceModel;
-import Model.Model;
-import Model.Roll;
-import View.DiscordView;
-import View.View;
+import model.DiceModel;
+import model.Model;
+import model.Roll;
+import view.DiscordView;
+import view.View;
 
 /**
  * The DiceController manages the input command and executes the corresponding functions of the model

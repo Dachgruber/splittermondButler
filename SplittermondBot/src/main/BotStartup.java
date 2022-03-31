@@ -1,10 +1,10 @@
-package Main;
+package main;
 
 import javax.security.auth.login.LoginException;
 
-import Controller.Commands;
-import Controller.Controller;
-import Controller.DiceController;
+import controller.Commands;
+import controller.Controller;
+import controller.DiceController;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
