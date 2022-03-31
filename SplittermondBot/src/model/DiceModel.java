@@ -11,7 +11,7 @@ import net.dv8tion.jda.api.entities.User;
 import view.View;
 
 public class DiceModel implements Model {
-    TickBar tb;
+    TickBar tb; // TODO: access rights
     View view;
 
     final String BULLSHIT_PATH = "txt/bullshit.txt";
@@ -22,19 +22,19 @@ public class DiceModel implements Model {
 
     //------------------------------Dice Section-------------------------------------
     @Override
-    public Roll rollDice(Integer[] args) {
+    public Roll rollDice(int[] args) {
         return new Roll(args[0], args[1]).RollTheDice();
     }
 
     @Override
-    public Roll rollDice(Integer[] args, String[] calcArgs) {
+    public Roll rollDice(int[] args, String[] calcArgs) {
         return new Roll(args[0], args[1]).RollTheDice().calcResult(calcArgs[0], calcArgs[1]);
     }
 
     //------------------------------BullshitBingo Section----------------------------------
     @Override
     public String rollBingo() {
-        String[] items = null;
+        String[] items;
         String result = "bullshitbingo failed";
         try {
             items = loadFileAsString(BULLSHIT_PATH).split(";"); //The Items are separated in the txt by an ;
@@ -53,7 +53,6 @@ public class DiceModel implements Model {
         }
 
         return result;
-
     }
 
     //------------------------------TickBar Section----------------------------------
@@ -65,36 +64,38 @@ public class DiceModel implements Model {
 
     @Override
     public void joinEnemy(String name, String ini) {
-
-        //Roll new dices and get their result
+        // Roll new dices and get their result
         int result = new Roll(1, 6).RollTheDice().getResult();
         int pos = Integer.parseInt(ini) - result;
         
         
-        //put the enemy on the board
+        // put the enemy on the board
         this.tb.addEnemy(pos , name, "This is a default desctiption"); //TODO update description
-        String replyStr = name + " joined at pos "
-                + Integer.toString(pos)
-                + " while rolling a "
-                + Integer.toString(result);
-        this.view.reply(replyStr);
 
+        String replyStr = name + " joined at pos "
+                + pos
+                + " while rolling a "
+                + result;
+
+        this.view.reply(replyStr);
     }
 
     @Override
     public void joinPlayer(String string) {
         User player = this.view.getCurrentEvent().getAuthor();
 
-        //Roll new dices and get their result
+        // Roll new dices and get their result
         int result = new Roll(1, 6).RollTheDice().getResult();
 
-        //calc their position on the board
+        // calc their position on the board
         int pos = Integer.parseInt(string) - result;
         this.tb.addPlayer(pos,player);
+
         String replyStr = "You joined at pos "
-                + Integer.toString(pos)
+                + pos
                 + " while rolling a "
-                + Integer.toString(result);
+                + result;
+
         this.view.reply(replyStr);
     }
 
@@ -118,17 +119,20 @@ public class DiceModel implements Model {
     @Override
     public void movePlayer(String string) {
         User player = this.view.getCurrentEvent().getAuthor();
+
         int pos = Integer.parseInt(string);
+
         this.tb.movePlayer(player, pos);
+
         String replyStr = "You moved to pos "
-                + Integer.toString(pos);
+                + pos;
+
         this.view.reply(replyStr);
     }
 
     @Override
     public void listTickBar() {
         this.view.displayTickContent(this.tb.getCurrentTick(), this.tb.getCurrentTurn(), this.tb.getNextMoves(10));
-
     }
 
     @Override
@@ -154,12 +158,10 @@ public class DiceModel implements Model {
      *
      * @param filepath location if file
      * @return content of file in String
-     * @throws IOException
+     * @throws IOException exception
      */
     private String loadFileAsString(String filepath) throws IOException {
-        String path = filepath;
-        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
-
+        try (BufferedReader br = new BufferedReader(new FileReader(filepath))) {
             String line = br.readLine();
             StringBuilder sb = new StringBuilder();
 
@@ -168,8 +170,7 @@ public class DiceModel implements Model {
                 line = br.readLine();
             }
 
-            String fileAsString = sb.toString();
-            return fileAsString;
+            return sb.toString();
         }
     }
 }

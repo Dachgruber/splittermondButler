@@ -29,8 +29,7 @@ import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
 public class DiscordView extends ListenerAdapter implements View {
-
-    private Controller cntrl;
+    private final Controller cntrl;
     private GuildMessageReceivedEvent currentEvent;
     private final String TOKEN_PATH = "/bottoken.txt";
     private final String GM_ROLENAME = "Gamemaster";
@@ -52,7 +51,6 @@ public class DiscordView extends ListenerAdapter implements View {
      * @throws LoginException
      */
     private void initateBot() throws LoginException {
-
         JDABuilder jda = JDABuilder.createDefault(this.loadToken());
         jda.setActivity(Activity.playing("Throwing Dice left, right and center"));
         jda.setStatus(OnlineStatus.ONLINE);
@@ -63,11 +61,11 @@ public class DiscordView extends ListenerAdapter implements View {
         jda.enableIntents(GatewayIntent.GUILD_MEMBERS);
 
         jda.build();
-
     }
 
     private String loadToken() {
-        String returnString = "";
+        StringBuilder returnString = new StringBuilder();
+
         try {
             FileReader reader = new FileReader(System.getProperty("user.dir") + TOKEN_PATH);
             BufferedReader bufferedReader = new BufferedReader(reader);
@@ -75,14 +73,15 @@ public class DiscordView extends ListenerAdapter implements View {
             String line;
 
             while ((line = bufferedReader.readLine()) != null) {
-                returnString += line;
+                returnString.append(line);
             }
             reader.close();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return returnString;
+
+        return returnString.toString();
     }
 
     /**
@@ -94,12 +93,13 @@ public class DiscordView extends ListenerAdapter implements View {
         //System.out.println("Listener Fired"); 								//DEBUG
         //System.out.println(this.currentEvent.getMessage().getContentRaw());
 
-        //dont react if the bot send the message!
-        if (!event.getAuthor().isBot())
-
-            //only react if the correct prefix is used
-            if (event.getMessage().getContentRaw().startsWith("!"))
+        // dont react if the bot send the message!
+        if (!event.getAuthor().isBot()) {
+            // only react if the correct prefix is used
+            if (event.getMessage().getContentRaw().startsWith("!")) {
                 this.cntrl.executeCommand(args);
+            }
+        }
     }
 
     @Override
@@ -115,7 +115,6 @@ public class DiscordView extends ListenerAdapter implements View {
     @Override
     public void displayMsg(String msg) {
         currentEvent.getChannel().sendMessage(msg).queue();
-
     }
 
     @Override
@@ -123,19 +122,16 @@ public class DiscordView extends ListenerAdapter implements View {
         Role gmRole = findRole(currentEvent.getGuild(), GM_ROLENAME);
         Member gm = currentEvent.getGuild().getMembersWithRoles(gmRole).get(0);
         gm.getUser().openPrivateChannel().flatMap(channel -> channel.sendMessage(content)).queue();
-
     }
 
 
     @Override
     public void reply(String msg) {
         currentEvent.getMessage().reply(msg).queue();
-
     }
 
     @Override
     public void displayRoll(Roll rollEvent) {
-
         RollTemplate rollTemplate = new RollTemplate();
         EmbedBuilder embed = rollTemplate.buildRollEmbed(this.currentEvent, rollEvent);
 
@@ -149,28 +145,24 @@ public class DiscordView extends ListenerAdapter implements View {
         RollTemplate rollTemplate = new RollTemplate();
         EmbedBuilder embed = rollTemplate.buildPrivateRollEmbed(this.currentEvent, rollEvent);
 
-
         Role gmRole = findRole(currentEvent.getGuild(), GM_ROLENAME);
         Member gm = currentEvent.getGuild().getMembersWithRoles(gmRole).get(0);
 
         MessageEmbed content = embed.build();
         gm.getUser().openPrivateChannel().flatMap(channel -> channel.sendMessage(content)).queue();
         embed.clear();
-
     }
 
 
     @Override
     public void displayError(Exception exc) {
         currentEvent.getChannel().sendMessage(exc.getLocalizedMessage()).queue();
-
     }
 
     @Override
     public void displayTickNew() {
         Role partRole = findRole(currentEvent.getGuild(), PARTICIPANT_ROLENAME);
         this.displayMsg(partRole.getAsMention() + "The GM started a new fight! Type !tick join [INI] to join the battle!");
-
     }
 
 
@@ -180,7 +172,6 @@ public class DiscordView extends ListenerAdapter implements View {
         EmbedBuilder embed = tickTemplate.buildTickEmbed(this.currentEvent, currentTick, turns, nextMoves);
         currentEvent.getChannel().sendMessage(embed.build()).queue();
         embed.clear();
-
     }
 
     @Override
@@ -189,51 +180,32 @@ public class DiscordView extends ListenerAdapter implements View {
         EmbedBuilder embed = tickTemplate.buildStartingEmbed(this.currentEvent, players);
         currentEvent.getChannel().sendMessage(embed.build()).queue();
         embed.clear();
-
     }
 
     @Override
     public void displayTickPosition(int pos) {
-        this.displayMsg("Your turn is at Tick: " + Integer.toString(pos));
-
+        this.displayMsg("Your turn is at Tick: " + pos);
     }
 
-    //	@Override
-//	public void displayOnlineImg(String string) {
-//		URL url;
-//		try {
-//			url = new URL(string);
-//			currentEvent.getChannel().sendFile(url.openStream()).queue();
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//	}
     @Override
     public void displayLocalImg(String string) {
         File file;
+
         try {
             file = new File(string);
             currentEvent.getChannel().sendFile(file).queue();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
     }
 
     private Role findRole(Guild guild, String name) {
-
         List<Role> roles = guild.getRolesByName(name, true);
-
         return roles.get(0);
-
     }
 
     @Override
     public void displayBingo(String bingoResult) {
-
         Role gmRole = findRole(currentEvent.getGuild(), GM_ROLENAME);
         Member gm = currentEvent.getGuild().getMembersWithRoles(gmRole).get(0);
 
@@ -242,7 +214,6 @@ public class DiscordView extends ListenerAdapter implements View {
 
         currentEvent.getMessage().reply(embed.build()).queue();
         embed.clear();
-
     }
 }
 

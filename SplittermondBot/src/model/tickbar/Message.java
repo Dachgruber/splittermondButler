@@ -15,7 +15,7 @@ public class Message extends Item{
 	 * @return String generated ID
 	 */
 	public static String generateID() {
-		return "Msg" + Integer.toString(MessageCount);
+		return "Msg" + MessageCount;
 	}
 	
     public Message(int pos, String name, String content) {

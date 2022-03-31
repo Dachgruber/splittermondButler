@@ -3,9 +3,9 @@ package model;
 import java.util.Random;
 
 public class Dice {
-
     Random randomGenerator = new Random();
-    int sides;
+
+    int sides; // TODO: decide access rights
 
     public Dice(int sides) {
         this.sides = sides;
@@ -14,5 +14,4 @@ public class Dice {
     public int rollDice() {
         return randomGenerator.nextInt(sides) + 1;
     }
-
 }

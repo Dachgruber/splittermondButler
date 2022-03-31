@@ -16,12 +16,9 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
  * class RollTemplate manages only the Embed-Visualisation of the roll. For handling the math, refer to class "Roll"
  */
 public class TickTemplate {
-
     EmbedBuilder embed;
 
-
     public TickTemplate() {
-
         embed = new EmbedBuilder();
     }
 
@@ -37,7 +34,7 @@ public class TickTemplate {
      */
     public EmbedBuilder buildTickEmbed(GuildMessageReceivedEvent event, int currentTick, String turns, ArrayList<ArrayList<String>> nextMoves) {
 
-        embed.setTitle("We are at Tick: " + Integer.toString(currentTick));
+        embed.setTitle("We are at Tick: " + currentTick);
         String desc = "";
         String[] turn = turns.split(",");
         for (String entry : turn) {
