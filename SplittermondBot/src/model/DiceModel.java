@@ -5,12 +5,12 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import model.tickbar.Enemy;
-import model.tickbar.TickBar;
+import model.tickbar.Controller;
 import net.dv8tion.jda.api.entities.User;
 import view.View;
 
 public class DiceModel implements Model {
-    TickBar tb;
+    Controller tb;
     View view;
 
     final String BULLSHIT_PATH = "txt/bullshit.txt";
@@ -58,7 +58,7 @@ public class DiceModel implements Model {
     //------------------------------TickBar Section----------------------------------
     @Override
     public void newTickBar() {
-        tb = new TickBar();
+        tb = new Controller();
         this.view.displayTickNew();
     }
 

@@ -1,6 +1,6 @@
 package model.tickbar;
 
-public class TickBarItem {
+public class Item {
 
 	private int pos;
 	private String name;

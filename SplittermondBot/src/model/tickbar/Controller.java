@@ -5,15 +5,8 @@ import java.util.Collections;
 
 import net.dv8tion.jda.api.entities.User;
 
-/**
- * the tickbar is the implementation of the classic 'tickleiste', which is the battle board of Splittermond.
- * User and enemies join the battle with a 1W6 for some random start initative. Then, the battle starts with the first
- * player, and every player gets called corresponding to their turn. After some action the player can either move their pointer relative
- * to their last position or set themselves to a specific point on the table
- *
- * @author Cornelius
- */
-public class TickBar {
+
+public class Controller {
 
     int currentTick;
 
@@ -30,7 +23,7 @@ public class TickBar {
     /**
      * creates a new Tickbar, starting at tick 0
      */
-    public TickBar() {
+    public Controller() {
         this.currentTick = 0;
         this.players = new ArrayList<>();
         this.enemies = new ArrayList<>();
