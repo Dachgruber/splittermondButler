@@ -5,74 +5,115 @@ import java.util.Collections;
 
 import net.dv8tion.jda.api.entities.User;
 
-
-public class Controller {
+/**
+ * the Controller manages the tickbar, creates tickbarItems and dishes out the needed information for every other class
+ * @author Cornelius
+ * @deprecated
+ *
+ */
+public class OldController {
 
     int currentTick;
 
-    //used to calc the actual tick if the battle starts with negative ticks
-    int offset = 0;
-
-    //players and the positions are represented by dynamic lists. The pos-integer for the list
-    //is used as an internal userID
-    ArrayList<User> players;
-    ArrayList<Enemy> enemies;
-    ArrayList<Integer> playerPos;
-    ArrayList<Integer> enemyPos;
+    //every item (called markers) on the tickbar gets saved in a dynamic list
+    ArrayList<Item> markers;
 
     /**
      * creates a new Tickbar, starting at tick 0
      */
-    public Controller() {
+    public OldController() {
         this.currentTick = 0;
-        this.players = new ArrayList<>();
-        this.enemies = new ArrayList<>();
-        this.enemyPos = new ArrayList<>();
-        this.playerPos = new ArrayList<>();
+        this.markers = new ArrayList<>();
     }
 
-    /**
-     * initialises the tickbar, checks if negative pos are given and calcs the offset needed if some player start at a negative number
-     */
+    
     public void start() {
-        //looks at the first enemy and the first user and determines, who comes first
-        int lowestPos = Math.min(Collections.min(playerPos), Collections.min(enemyPos));
+        int lowestPos = this.calcLowestPos();
         if (lowestPos < 0)
-            this.offset = lowestPos;
-
-        this.currentTick = 0;
+        	this.currentTick = lowestPos;
+        else
+        	this.currentTick = 0;
 
     }
 
-    /**
-     * steps the tickbar to the next tick
-     */
     public void tick() {
         this.currentTick++;
     }
+    
+   
+    public void tick(int numberOfTicks) {
+    	this.currentTick += numberOfTicks;
+    }
+    
+    private int calcLowestPos() {
+		// TODO Auto-generated method stub
+    	// int lowestPos = Math.min(Collections.min(playerPos), Collections.min(enemyPos)); //old method
+		return 0;
+	}
+
+	
+   
 
     public int getCurrentTick() {
         return currentTick + offset;
 
     }
 
-    public User[] getPlayers() {
-        return players.toArray(new User[players.size()]);
+    public ArrayList<Item> getMarkers() {
+    	return markers;							
     }
-
-    public Enemy[] getEnemies() {
-        return enemies.toArray(new Enemy[enemies.size()]);
+    
+    public ArrayList<Player> getPlayers() {
+    	ArrayList<Player> returnArray = new ArrayList<>();
+    	
+    	for (Item entry: markers) {
+    		if (entry.isPlayer()) {
+    			Player pl = (Player) entry;		//type casting is ugly, may be updated in the future
+    			returnArray.add(pl);
+    		}
+    	}
+    	 return returnArray;							//@SpuelMett ja ich benutze hier wieder lokale Arrays, ist hier einfacher :smilingcat
     }
-
-    public Integer[] getPlayerPos() {
-        return playerPos.toArray(new Integer[playerPos.size()]);
+    
+    public ArrayList<Enemy> getEnemies() {
+    	ArrayList<Enemy> returnArray = new ArrayList<>();
+    	
+    	for (Item entry: markers) {
+    		if (entry.isEnemy()) {
+    			Enemy en = (Enemy) entry;
+    			returnArray.add(en);
+    		}
+    	}
+    	 return returnArray;							
     }
-
-    public Integer[] getEnemyPos() {
-        return enemyPos.toArray(new Integer[enemyPos.size()]);
+    
+    /**
+     * adds a new marker to the tickbar
+     * @param marker
+     */
+    public void addMarker(Item marker) { 
+    	if (marker != null )
+    		this.markers.add(marker);
     }
-
-
+    
+    /**
+     * moves a marker by a set distance
+     * @param marker
+     * @param moveDistance
+     */
+    
+    public void moveMarker(Item marker, int moveDistance) {
+    	marker.setPos(marker.getPos() + moveDistance);
+    }
+    /**
+     * sets a marker to a predifined position
+     * @param marker
+     * @param moveDistance
+     */
+    public void setMarker(Item marker, int newPos) {
+    	marker.setPos(newPos);
+    }
+    
     /**
      * really bad method of getting the next moves of players and enemies into a 2D-String matrix
      *
@@ -133,10 +174,11 @@ public class Controller {
      *
      * @param player           User-Object of the player
      * @param playerInitiative 1W6-INI of the player
+     * @deprecated
      */
     public void joinPlayer(User player, int startTick) {
-        this.players.add(player);
-        this.playerPos.add(startTick);
+    	Player pl = new Player(startTick, player.getName(), player);
+        this.markers.add(pl);
     }
 
     /**
