@@ -209,7 +209,7 @@ public class Commands {
         if (args.length == 0) return true;
 
         //else check for the second condition
-        String[] parts = args[0].split("W");
+        String[] parts = args[0].split("[Ww]");
         if (this.isInteger(parts[0]) && this.isInteger(parts[1])) return true;
 
         //command was not valid
@@ -240,7 +240,7 @@ public class Commands {
      */
     public Integer[] getRollArgs(String[] strings) {
         if (this.checkValidRoll(strings)) {
-            String[] parts = strings[0].split("W");
+            String[] parts = strings[0].split("[Ww]");
             Integer diceAmount = Integer.parseInt(parts[0]);
             Integer diceSize = Integer.parseInt(parts[1]);
             Integer[] returnArray = {diceAmount, diceSize};
