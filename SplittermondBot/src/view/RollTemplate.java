@@ -12,12 +12,10 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
  * class RollTemplate manages only the Embed-Visualisation of the roll. For handling the math, refer to class "Roll"
  */
 public class RollTemplate {
-
     EmbedBuilder embed;
 
 
     public RollTemplate() {
-
         embed = new EmbedBuilder();
     }
 
@@ -31,12 +29,12 @@ public class RollTemplate {
      */
     public EmbedBuilder buildRollEmbed(GuildMessageReceivedEvent event, Roll rollEvent) {
 
-        embed.setTitle(Integer.toString(rollEvent.getDiceAmount()) + " W" + Integer.toString(rollEvent.getDiceSize()) + "🎲");
+        embed.setTitle(rollEvent.getDiceAmount() + " W" + rollEvent.getDiceSize() + "🎲");
 
         embed.setDescription(event.getAuthor().getAsMention() + " rolled "
-                + Integer.toString(rollEvent.getDiceAmount()) + " W" + Integer.toString(rollEvent.getDiceSize())
+                + rollEvent.getDiceAmount() + " W" + rollEvent.getDiceSize()
                 + "\n"
-                + "resulting in " + "**" + Integer.toString(rollEvent.getResult()) + "**");
+                + "resulting in " + "**" + rollEvent.getResult() + "**");
 
         embed.addField("The Results are:", this.makeListToString(rollEvent.getResultField()), false);
         // embed.addField("With a Sum of", Integer.toString(resultInteger), false);
@@ -56,11 +54,11 @@ public class RollTemplate {
 
     public EmbedBuilder buildPrivateRollEmbed(GuildMessageReceivedEvent currentEvent, Roll rollEvent) {
         embed = this.buildRollEmbed(currentEvent, rollEvent);
-        embed.setTitle("GMRoll: " + Integer.toString(rollEvent.getDiceAmount()) + " W" + Integer.toString(rollEvent.getDiceSize()) + "🎲");
+        embed.setTitle("GMRoll: " + rollEvent.getDiceAmount() + " W" + rollEvent.getDiceSize() + "🎲");
         embed.setDescription(currentEvent.getAuthor().getAsMention() + " rolled secrently"
-                + Integer.toString(rollEvent.getDiceAmount()) + " W" + Integer.toString(rollEvent.getDiceSize())
+                + rollEvent.getDiceAmount() + " W" + rollEvent.getDiceSize()
                 + " to you.\n"
-                + "resulting in " + "**" + Integer.toString(rollEvent.getResult()) + "**");
+                + "resulting in " + "**" + rollEvent.getResult() + "**");
         return embed;
     }
 
@@ -135,7 +133,6 @@ public class RollTemplate {
                 else return true;
             }
         }
-        //default is false
         return false;
     }
 

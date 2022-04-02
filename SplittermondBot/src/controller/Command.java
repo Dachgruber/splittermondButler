@@ -10,9 +10,6 @@ import org.apache.commons.lang3.ArrayUtils;
  * @author Cornelius
  */
 public class Command {
-
-    private String rawCommand;
-
     private String prefix = "!";
     private String cmd;
     private String[] args;
@@ -20,32 +17,32 @@ public class Command {
     /**
      * creates a new command and assign every part of it
      *
-     * @param fullcommand
+     * @param fullCommand Command
      */
-    public Command(String fullcommand) {
-        String[] parts = this.splitCommand(fullcommand);
+    public Command(String fullCommand) {
+        String[] parts = this.splitCommand(fullCommand);
         this.cmd = parts[1];
         this.args = Arrays.copyOfRange(parts, 2, parts.length);
-
     }
-
 
     /**
      * splits the command-string into an array with every word
      *
-     * @param command
+     * @param command Command
      * @return StringArray with words
      */
     private String[] splitCommand(String command) {
         String[] parts = command.split("[! ]");
         System.out.println(parts.length);
-        for (String str : parts)
+
+        for (String str : parts) {
             System.out.println(str);
+        }
+
         return parts;
     }
 
-    //getter and setter
-
+    // getter and setter
     public String getPrefix() {
         return prefix;
     }
@@ -66,12 +63,12 @@ public class Command {
         return args;
     }
 
-    //set the full args array
+    // set the full args array
     public void setArgs(String[] args) {
         this.args = args;
     }
 
-    //only set one specific argument
+    // only set one specific argument
     public void setArgs(int pos, String arg) {
         this.args[pos] = arg;
     }

@@ -5,18 +5,18 @@ public interface Model {
     /**
      * rolls a set of dice
      *
-     * @param args
-     * @return
+     * @param args Arguments
+     * @return Roll-object
      */
-    Roll rollDice(Integer[] args);
+    Roll rollDice(int[] args);
 
     /**
      * rolls a set of dice and calculates the calcArgs into the result
-     * @param args
-     * @param calcArgs
-     * @return
+     * @param args Arguments
+     * @param calcArgs Arithmetic calculation arguments
+     * @return Roll-object
      */
-    Roll rollDice(Integer[] args, String[] calcArgs);
+    Roll rollDice(int[] args, String[] calcArgs);
 
     /**
      * roll the bullshitbingo
@@ -79,6 +79,4 @@ public interface Model {
      * show the position of the user that send the current message
      */
     void showPosOfPlayer();
-
-    
 }

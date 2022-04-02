@@ -17,7 +17,7 @@ public class Controller implements TickBar {
 
 	private int currentTick;
 	
-	private HashMap<String,Item> markers;
+	private final HashMap<String,Item> markers;
 	
 	public Controller() {
 		this.currentTick = 0;
@@ -136,7 +136,7 @@ public class Controller implements TickBar {
 
             //create the entry array and add the current move
             ArrayList<String> entry = new ArrayList<>();
-            entry.add(Integer.toString(this.getCurrentTick() + i) + ":");
+            entry.add(this.getCurrentTick() + i + ":");
             
             //then add the names of the marker at this point
             entry.add(getTurnsAtPos(this.getCurrentTick() + i));

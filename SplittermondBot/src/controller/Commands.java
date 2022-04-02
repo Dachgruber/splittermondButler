@@ -8,132 +8,119 @@ import java.util.Arrays;
  * @author Cornelius
  */
 public class Commands {
-
     private final String prefix = "!";
 
-    private final String validOperator[] =
+    private final String[] validOperator =
             {"+", "-"};
 
     //-----------------------------Valid CMDs--------------------------------
-    private final String validCommands[] =
-            //{"roll","giveRole","removeRole"};
+    private final String[] validCommands =
             {"roll", "gmroll", "giveRole", "removeRole", "tick", "bingo"};
 
-
-    private final String roll[] = //roll some dice
+    private final String[] roll = // roll some dice
             {"roll", "throw", "werfe", "w�rfel", "r", "w�rfle", "rolle"};
 
-    private final String gmroll[] = //roll some dice, but only for the gm
+    private final String[] gmroll = // roll some dice, but only for the gm
             {"gmroll", "gmthrow", "gamemaster", "gm", "gmr"};
 
-    private final String giveRole[] = //assign a role
+    private final String[] giveRole = // assign a role
             {"give", "get", "giveRole", "getRole"};
 
-    private final String removeRole[] = //remove said role
+    private final String[] removeRole = // remove said role
             {"removeRole", "remove"};
 
-    private final String tick[] =    //do something with the tickleiste
+    private final String[] tick = // do something with the tickleiste
             {"tick", "tickleiste", "battle", "t"};
 
-    private final String bingo[] =    //play bullshit-bingo
+    private final String[] bingo = // play bullshit-bingo
             {"bbb", "bullshit", "bingo", "bullshitbingo", "nik"};
 
 
     //-----------------------------Valid ticks--------------------------------
-    private final String validTickCmd[] =
+    private final String[] validTickCmd =
             {"create", "start", "next", "move", "set", "pos", "list", "join", "addenemy"};
 
 
-    private final String tickCreate[] = //create a new tickleiste
+    private final String[] tickCreate = // create a new tickleiste
             {"create", "new"};
 
-    private final String tickStart[] = //start the battle
+    private final String[] tickStart = // start the battle
             {"start", "fight", "battle"};
 
-    private final String tickJoin[] = //joins the leiste
+    private final String[] tickJoin = // joins the leiste
             {"join"};
 
-    private final String tickNext[] = //move one step on the leiste
+    private final String[] tickNext = // move one step on the leiste
             {"next", "tick", "step"};
 
-    private final String tickMove[] = //move your character a set amount of ticks
+    private final String[] tickMove = // move your character a set amount of ticks
             {"move", "movechar"};
 
-    private final String tickSet[] =  //set your character on a specific field
+    private final String[] tickSet =  // set your character on a specific field
             {"set"};
 
-    private final String tickPos[] = //show your current position
+    private final String[] tickPos = // show your current position
             {"pos", "position", "current", "me"};
 
-    private final String tickList[] = //list the actions that are about to happen
+    private final String[] tickList = // list the actions that are about to happen
             {"list", "display", "show"};
 
-    private final String tickAddEnemy[] = //adds a new Enemy to the tickbar
+    private final String[] tickAddEnemy = // adds a new Enemy to the tickbar
             {"addenemy",};
 
-
-    public Commands() {
-
-    }
+    public Commands() {}
 
     /**
      * checks if a string is accepted as a command
      *
-     * @param command string
+     * @param cmd Command
      * @return true if command is valid
      */
     public boolean isValidCommand(Command cmd) {
-        boolean valid = false;
-
         if (cmd.getPrefix().equals(prefix)) { //is the correct prefix used?
             System.out.println("Right prefix");
             System.out.println(cmd.getCmd());
 
             if (Arrays.asList(validCommands).contains(cmd.getCmd())) { //is the actual command valid?
                 System.out.println("Right command");
-                valid = true;
+                return true;
             }
         }
 
-        return valid;
-
-
+        return false;
     }
 
     /**
      * checks if a command contains a valid calculation as in 2W10 + 13 etc
      *
-     * @param command string
+     * @param cmd Command
      * @return true if command is valid
      */
     public boolean isValidCalc(Command cmd) {
-        boolean valid = false;
-
         if ((cmd.getArgs().length > 1)) {
             System.out.println("the to checked operator is:");
             System.out.println(cmd.getArgs()[1]);
-            if (Arrays.asList(validOperator).contains((cmd.getArgs()[1]))) { //is the used operator legal?
 
+            if (Arrays.asList(validOperator).contains((cmd.getArgs()[1]))) { //is the used operator legal?
                 if (this.isInteger(cmd.getArgs()[2])) {                    //is the operator followed by an integer?
                     System.out.println("Right command");
-                    valid = true;
+                    return true;
                 }
             }
         }
-        return valid;
 
+        return false;
     }
-
 
     /**
      * corrects spelling of command and returns standard command string
      *
-     * @param command
-     * @param i
+     * @param command Command
      * @return string correct command
      */
     public Command correctCommand(Command command) {
         String lcCommand = command.getCmd().toLowerCase();
+
         if (Arrays.asList(roll).contains(lcCommand))
             command.setCmd("roll");
         else if (Arrays.asList(gmroll).contains(lcCommand))
@@ -146,34 +133,30 @@ public class Commands {
             command.setCmd("tick");
         else if (Arrays.asList(bingo).contains(lcCommand))
             command.setCmd("bingo");
-        return command;
 
+        return command;
     }
 
     /**
      * checks if a command is valid in context of the tick parent-cmd. Only checks the second argument
      *
-     * @param Command cmd
-     * @return
+     * @param cmd Command
+     * @return valid
      */
-    public boolean checkvalidTickCommand(Command cmd) {
-        boolean valid = false;
-        if (Arrays.asList(validTickCmd).contains(cmd.getArgs()[0])) {
-            valid = true;
-        }
-        return valid;
+    public boolean checkValidTickCommand(Command cmd) {
+        return Arrays.asList(validTickCmd).contains(cmd.getArgs()[0]);
     }
 
     /**
      * corrects the command in the context of the tick command. replaces the first argument in the args array
      *
-     * @param string
-     * @return
+     * @param command Command
+     * @return Command
      */
     public Command correctTickCommand(Command command) {
-
         //get second word of the command, !tick create etc
         String lcCommand = command.getArgs()[0].toLowerCase();
+
         if (Arrays.asList(tickCreate).contains(lcCommand))
             command.setArgs(0, "create");
         else if (Arrays.asList(tickStart).contains(lcCommand))
@@ -192,17 +175,16 @@ public class Commands {
             command.setArgs(0, "join");
         else if (Arrays.asList(tickAddEnemy).contains(lcCommand))
             command.setArgs(0, "addenemy");
+
         return command;
-
-
     }
 
     /**
      * checks if the command acts as a valid roll command.
      * A command is considered valid if either no args are given (default roll) or 2 Integers split with a W is given (2W10 etc)
      *
-     * @param strings
-     * @return
+     * @param args Arguments
+     * @return valid
      */
     public boolean checkValidRoll(String[] args) {
         //check for case with no args
@@ -212,15 +194,15 @@ public class Commands {
         String[] parts = args[0].split("[Ww]");
         if (this.isInteger(parts[0]) && this.isInteger(parts[1])) return true;
 
-        //command was not valid
-        return false;
+        // return valid state
+        return this.isInteger(parts[0]) && this.isInteger(parts[1]);
     }
 
     /**
      * checks if str is an Integer
      *
-     * @param str
-     * @return
+     * @param str String that should be checked
+     * @return true when the given string is an integer
      */
     private boolean isInteger(String str) {
         try {
@@ -235,10 +217,10 @@ public class Commands {
     /**
      * parses the command and returns the two integer values of the dice roll (f.e. 2W10 -> [2,10])
      *
-     * @param strings
+     * @param strings Array of roll arguments as strings
      * @return int array with dice amount and dice size
      */
-    public Integer[] getRollArgs(String[] strings) {
+    public int[] getRollArgs(String[] strings) {
         if (this.checkValidRoll(strings)) {
             String[] parts = strings[0].split("[Ww]");
             Integer diceAmount = Integer.parseInt(parts[0]);
@@ -248,7 +230,5 @@ public class Commands {
         } else {
             return null;
         }
-
     }
-
 }
