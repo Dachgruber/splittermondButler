@@ -191,7 +191,8 @@ public class Commands {
         if (args.length == 0) return true;
 
         //else check for the second condition
-        String[] parts = args[0].split("W");
+        String[] parts = args[0].split("[Ww]");
+        if (this.isInteger(parts[0]) && this.isInteger(parts[1])) return true;
 
         // return valid state
         return this.isInteger(parts[0]) && this.isInteger(parts[1]);
@@ -221,10 +222,11 @@ public class Commands {
      */
     public int[] getRollArgs(String[] strings) {
         if (this.checkValidRoll(strings)) {
-            String[] parts = strings[0].split("W");
-            int diceAmount = Integer.parseInt(parts[0]);
-            int diceSize = Integer.parseInt(parts[1]);
-            return new int[]{ diceAmount, diceSize };
+            String[] parts = strings[0].split("[Ww]");
+            Integer diceAmount = Integer.parseInt(parts[0]);
+            Integer diceSize = Integer.parseInt(parts[1]);
+            Integer[] returnArray = {diceAmount, diceSize};
+            return returnArray;
         } else {
             return null;
         }
