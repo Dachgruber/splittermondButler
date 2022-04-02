@@ -14,6 +14,7 @@ Discord-Bot built on JDA for use in Discord-based online PnP servers. Created fo
 - [Discord JDA](https://github.com/DV8FromTheWorld/JDA.git) (duh)
 - [Apache Commons Lang](https://mvnrepository.com/artifact/org.apache.commons/commons-lang3)
 - [libsplittermond](https://www.rpgframework.de/index.php/de/entwicklung/libsplittermond/) currently not used
+- Java 14 or above
 
 ### Windows
 - download latest .jar from releases and move it into its own folder
