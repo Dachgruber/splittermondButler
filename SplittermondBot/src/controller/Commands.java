@@ -225,7 +225,7 @@ public class Commands {
             String[] parts = strings[0].split("[Ww]");
             Integer diceAmount = Integer.parseInt(parts[0]);
             Integer diceSize = Integer.parseInt(parts[1]);
-            Integer[] returnArray = {diceAmount, diceSize};
+            int[] returnArray = {diceAmount, diceSize};
             return returnArray;
         } else {
             return null;
