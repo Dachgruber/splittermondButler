@@ -101,8 +101,8 @@ public class Commands {
     public boolean isValidCalc(Command cmd) {
     	String[] args = cmd.getArgs();
     	
-    	//does the command include the roll? also check if is not empty
-        if (this.checkValidRoll(args)) {	
+    	//does the command include the roll? normal rolls are to short and dont include calc arguments
+        if (this.checkValidRoll(args) && args.length > 3) {	
         	
         	//the operator is located at the 4. pos in the args
         	//is the used operator legal?
@@ -115,7 +115,16 @@ public class Commands {
         }
         return false;
     }
-
+    /**
+     * gets the calc arguments from the command
+     * @param command
+     * @return 1.elem operator, 2.elem integer
+     */
+    public String[] getCalcArgs(Command command) {
+		String[] returnArray = {command.getArgs()[3], command.getArgs()[4]}; //used local field as putting it directly into return made compiler big sad
+		return returnArray;
+	}
+    
     /**
      * corrects spelling of command and returns standard command string
      *
@@ -235,4 +244,6 @@ public class Commands {
             return null;
         }
     }
+
+	
 }

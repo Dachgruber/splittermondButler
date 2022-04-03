@@ -60,7 +60,7 @@ public class DiceController implements Controller {
                             //System.out.println(command.getArgs()[1]);
                             //System.out.println(command.getArgs()[2]);
 
-                            String[] calcArgs = {command.getArgs()[1], command.getArgs()[2]};
+                            String[] calcArgs =cmd.getCalcArgs(command);
 
                             // the roll being created with calculate-Arguments
                             r = this.model.rollDice(args, calcArgs);
