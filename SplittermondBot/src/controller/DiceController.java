@@ -43,7 +43,7 @@ public class DiceController implements Controller {
             switch (command.getCmd()) {
                 case "roll":
                 case "gmroll":
-                    if (cmd.checkValidRoll(command.getArgs())) {
+                    if (cmd.isValidRoll(command)) {
                         // sets the default value to 2W10
                         int[] args = {2, 10};
 
