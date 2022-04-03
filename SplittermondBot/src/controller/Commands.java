@@ -91,24 +91,28 @@ public class Commands {
     }
 
     /**
-     * checks if a command contains a valid calculation as in 2W10 + 13 etc
+     * checks if a command contains a valid calculation as in 2W10 + 13 etc.
+     * Command is valid if args are containing a roll, one operator and another integer
+     * ex: [2,W,10,+,13]. Further args are not considered
      *
      * @param cmd Command
      * @return true if command is valid
      */
     public boolean isValidCalc(Command cmd) {
-        if ((cmd.getArgs().length > 1)) {
-            System.out.println("the to checked operator is:");
-            System.out.println(cmd.getArgs()[1]);
-
-            if (Arrays.asList(validOperator).contains((cmd.getArgs()[1]))) { //is the used operator legal?
-                if (this.isInteger(cmd.getArgs()[2])) {                    //is the operator followed by an integer?
-                    System.out.println("Right command");
+    	String[] args = cmd.getArgs();
+    	
+    	//does the command include the roll? also check if is not empty
+        if (this.checkValidRoll(args)) {	
+        	
+        	//the operator is located at the 4. pos in the args
+        	//is the used operator legal?
+            if (Arrays.asList(validOperator).contains(args[3])) { 
+            	//is the operator followed by an integer?
+                if (this.isInteger(args[4])) {
                     return true;
                 }
             }
         }
-
         return false;
     }
 
@@ -180,8 +184,10 @@ public class Commands {
     }
 
     /**
-     * checks if the command acts as a valid roll command.
-     * A command is considered valid if either no args are given (default roll) or 2 Integers split with a W is given (2W10 etc)
+     * checks if the given array acts as a valid roll command argument.
+     * The array is considered valid if either no args are given (default roll) or 
+     * 2 Integers split with a W is given ([2, W, 10] etc). Further arguments are not
+     * considered
      *
      * @param args Arguments
      * @return valid
@@ -191,11 +197,10 @@ public class Commands {
         if (args.length == 0) return true;
 
         //else check for the second condition
-        String[] parts = args[0].split("[Ww]");
-        if (this.isInteger(parts[0]) && this.isInteger(parts[1])) return true;
 
-        // return valid state
-        return this.isInteger(parts[0]) && this.isInteger(parts[1]);
+        if (this.isInteger(args[0]) && args[1].equalsIgnoreCase("w") && this.isInteger(args[2])) return true;
+        else return false;
+        
     }
 
     /**
@@ -222,9 +227,8 @@ public class Commands {
      */
     public int[] getRollArgs(String[] strings) {
         if (this.checkValidRoll(strings)) {
-            String[] parts = strings[0].split("[Ww]");
-            Integer diceAmount = Integer.parseInt(parts[0]);
-            Integer diceSize = Integer.parseInt(parts[1]);
+            Integer diceAmount = Integer.parseInt(strings[0]);
+            Integer diceSize = Integer.parseInt(strings[2]);
             int[] returnArray = {diceAmount, diceSize};
             return returnArray;
         } else {
