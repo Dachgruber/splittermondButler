@@ -3,101 +3,97 @@ package model;
 import view.RollTemplate;
 
 public class Roll {
-    RollTemplate embed = new RollTemplate(); // TODO: ACCESS RIGHTS
-    int diceAmount;
-    int diceSize;
+	RollTemplate embed = new RollTemplate(); // TODO: ACCESS RIGHTS
+	int diceAmount;
+	int diceSize;
 
-    int[] resultField;
-    int result = 0;
+	int[] resultField;
+	int result = 0;
 
-    int mod = 0;
-    int test;
-    Dice[] diceList;
+	int mod = 0;
+	int test;
+	Dice[] diceList;
 
-    /**
-     * creates a new Roll event, needs amount of dices and the used size
-     *
-     * @param diceAmount amount of dices
-     * @param diceSize   size of dice
-     */
-    public Roll(int diceAmount, int diceSize) {
-        this.diceAmount = diceAmount;
-        this.diceSize = diceSize;
+	/**
+	 * creates a new Roll event, needs amount of dices and the used size
+	 *
+	 * @param diceAmount amount of dices
+	 * @param diceSize   size of dice
+	 */
+	public Roll(int diceAmount, int diceSize) {
+		this.diceAmount = diceAmount;
+		this.diceSize = diceSize;
 
-        this.CreateDice();
-    }
+		this.CreateDice();
+	}
 
-    private void CreateDice() {
-        this.diceList = new Dice[this.diceAmount];
+	private void CreateDice() {
+		this.diceList = new Dice[this.diceAmount];
 
-        for (int i = 0; i < this.diceAmount; i++) {
-            this.diceList[i] = new Dice(this.diceSize);
-        }
-    }
+		for (int i = 0; i < this.diceAmount; i++)
+			this.diceList[i] = new Dice(this.diceSize);
+	}
 
-    public Roll RollTheDice() {
-        this.resultField = new int[this.diceAmount];
+	public Roll RollTheDice() {
+		this.resultField = new int[this.diceAmount];
 
-        for (int i = 0; i < this.diceAmount; i++) {
-            int tempResult = this.diceList[i].rollDice();
-            this.resultField[i] = tempResult;
-        }
+		for (int i = 0; i < this.diceAmount; i++) {
+			int tempResult = this.diceList[i].rollDice();
+			this.resultField[i] = tempResult;
+		}
 
-        this.calcResult();
+		this.calcResult();
 
-        return this;
-    }
+		return this;
+	}
 
+	public void calcResult() {
+		int newResult = 0;
 
-    public void calcResult() {
-        int newResult = 0;
+		for (int i : this.resultField)
+			newResult += i;
 
-        for (int i : this.resultField) {
-            newResult += i;
-        }
+		this.result = newResult;
+	}
 
-        this.result = newResult;
-    }
+	public Roll calcResult(String operator, String calcArg) {
+		int newResult = 0;
 
-    public Roll calcResult(String operator, String calcArg) {
-        int newResult = 0;
+		for (int element : this.resultField)
+			newResult += element;
 
-        for (int element : this.resultField) {
-            newResult += element;
-        }
+		switch (operator) {
+		case "+" -> newResult += Integer.parseInt(calcArg);
+		case "-" -> newResult -= Integer.parseInt(calcArg);
+		}
 
-        switch (operator) {
-            case "+" -> newResult += Integer.parseInt(calcArg);
-            case "-" -> newResult -= Integer.parseInt(calcArg);
-        }
+		this.result = newResult;
 
-        this.result = newResult;
+		return this;
+	}
 
-        return this;
-    }
+	public int getDiceAmount() {
+		return this.diceAmount;
+	}
 
-    public int getDiceAmount() {
-        return diceAmount;
-    }
+	public void setDiceAmount(int diceAmount) {
+		this.diceAmount = diceAmount;
+	}
 
-    public void setDiceAmount(int diceAmount) {
-        this.diceAmount = diceAmount;
-    }
+	public int getDiceSize() {
+		return this.diceSize;
+	}
 
-    public int getDiceSize() {
-        return diceSize;
-    }
+	public void setDiceSize(int diceSize) {
+		this.diceSize = diceSize;
+	}
 
-    public void setDiceSize(int diceSize) {
-        this.diceSize = diceSize;
-    }
+	public int[] getResultField() {
+		return this.resultField;
+	}
 
-    public int[] getResultField() {
-        return resultField;
-    }
-
-    public int getResult() {
-        return result;
-    }
+	public int getResult() {
+		return this.result;
+	}
 
 }

@@ -4,171 +4,163 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 
-import model.tickbar.Enemy;
-import model.tickbar.Player;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 /**
  * @author Cornelius
- * <p>
- * class RollTemplate manages only the Embed-Visualisation of the roll. For handling the math, refer to class "Roll"
+ *         <p>
+ *         class RollTemplate manages only the Embed-Visualisation of the roll.
+ *         For handling the math, refer to class "Roll"
  */
 public class TickTemplate {
-    EmbedBuilder embed;
+	EmbedBuilder embed;
 
-    public TickTemplate() {
-        embed = new EmbedBuilder();
-    }
+	public TickTemplate() {
+		this.embed = new EmbedBuilder();
+	}
 
-    /**
-     * creates a embed for a current state of the tickBar
-     *
-     * @param event
-     * @param currentTick
-     * @param turn
-     * @param enemies
-     * @param nextMoves
-     * @return
-     */
-    public EmbedBuilder buildTickEmbed(GuildMessageReceivedEvent event, int currentTick, String turns, ArrayList<ArrayList<String>> nextMoves) {
+	/**
+	 * creates a embed for a current state of the tickBar
+	 *
+	 * @param event
+	 * @param currentTick
+	 * @param turn
+	 * @param enemies
+	 * @param nextMoves
+	 * @return
+	 */
+	public EmbedBuilder buildTickEmbed(GuildMessageReceivedEvent event, int currentTick, String turns,
+			ArrayList<ArrayList<String>> nextMoves) {
 
-        embed.setTitle("We are at Tick: " + currentTick);
-        String desc = "";
-        String[] turn = turns.split(",");
-        for (String entry : turn) {
-            desc += "its " + entry + " turn!\n";
-        }
-        
-        embed.setDescription(desc);
+		this.embed.setTitle("We are at Tick: " + currentTick);
+		String desc = "";
+		String[] turn = turns.split(",");
+		for (String entry : turn)
+			desc += "its " + entry + " turn!\n";
 
-        String moves = "";
-        for (ArrayList<String> l : nextMoves) {
-            for (String c : l) {
-                moves += c + "  ";
-            }
-            moves += "\n ";
-        }
+		this.embed.setDescription(desc);
 
-        embed.addField("The next moves are:", moves, false);
-        // embed.addField("With a Sum of", Integer.toString(resultInteger), false);
+		String moves = "";
+		for (ArrayList<String> l : nextMoves) {
+			for (String c : l)
+				moves += c + "  ";
+			moves += "\n ";
+		}
 
+		this.embed.addField("The next moves are:", moves, false);
+		// embed.addField("With a Sum of", Integer.toString(resultInteger), false);
 
-        embed.setColor(Color.BLUE);
-        //embed.setFooter("Splittermond-Rollbutler, created by" + event.getGuild().getOwner().getAsMention() , event.getGuild().getOwner().getUser().getAvatarUrl());
+		this.embed.setColor(Color.BLUE);
+		// embed.setFooter("Splittermond-Rollbutler, created by" +
+		// event.getGuild().getOwner().getAsMention() ,
+		// event.getGuild().getOwner().getUser().getAvatarUrl());
 
-        return embed;
-    }
+		return this.embed;
+	}
 
-    public EmbedBuilder buildStartingEmbed(GuildMessageReceivedEvent event, ArrayList<String> playerNames) {
+	public EmbedBuilder buildStartingEmbed(GuildMessageReceivedEvent event, ArrayList<String> playerNames) {
 
-        embed.setTitle("The Fight starts!");
-        String desc = "";
-        for (int i = 0; i < playerNames.size(); i++) {
-            desc += playerNames.get(i) + " " + this.getRandomTaunt() + "\n";
-        }
-        embed.setDescription(desc);
+		this.embed.setTitle("The Fight starts!");
+		String desc = "";
+		for (String playerName : playerNames)
+			desc += playerName + " " + this.getRandomTaunt() + "\n";
+		this.embed.setDescription(desc);
 
-        embed.setColor(Color.BLUE);
-        //embed.setFooter("Splittermond-Rollbutler, created by" + event.getGuild().getOwner().getAsMention() , event.getGuild().getOwner().getUser().getAvatarUrl());
+		this.embed.setColor(Color.BLUE);
+		// embed.setFooter("Splittermond-Rollbutler, created by" +
+		// event.getGuild().getOwner().getAsMention() ,
+		// event.getGuild().getOwner().getUser().getAvatarUrl());
 
-        return embed;
-    }
-    
-    private String getRandomTaunt() {
-    	String[] taunts = {"fights", "starts in the battle", "is ready to clash", "wants to brawl", "is giga tylt", "is ready to rumble"};
-    	Random rand = new Random();
-        return taunts[rand.nextInt(taunts.length)];
-    }
+		return this.embed;
+	}
 
-    private boolean testIfGood(int[] resultList, int bestPossible) {
-        boolean goodThrow = false;
-        boolean firstGoodThrowCatched = false;
-        for (int i = 0; i < resultList.length; i++) {
-            if (resultList[i] == bestPossible || resultList[i] == bestPossible - 1) {
-                if (!firstGoodThrowCatched) {
-                    firstGoodThrowCatched = true;
-                } else {
-                    goodThrow = true;
-                    break;
-                }
-            }
-        }
-        return goodThrow;
+	private String getRandomTaunt() {
+		String[] taunts = { "fights", "starts in the battle", "is ready to clash", "wants to brawl", "is giga tylt",
+				"is ready to rumble" };
+		Random rand = new Random();
+		return taunts[rand.nextInt(taunts.length)];
+	}
 
-    }
+	private boolean testIfGood(int[] resultList, int bestPossible) {
+		boolean goodThrow = false;
+		boolean firstGoodThrowCatched = false;
+		for (int element : resultList)
+			if (element == bestPossible || element == bestPossible - 1)
+				if (!firstGoodThrowCatched)
+					firstGoodThrowCatched = true;
+				else {
+					goodThrow = true;
+					break;
+				}
+		return goodThrow;
 
-    private boolean testIfBad(int[] resultList) {
-        boolean badThrow = false;
-        boolean firstBadThrowCatched = false;
-        for (int i = 0; i < resultList.length; i++) {
-            if (resultList[i] == 0 || resultList[i] == 1) {
-                if (!firstBadThrowCatched) {
-                    firstBadThrowCatched = true;
-                } else {
-                    badThrow = true;
-                    break;
-                }
-            }
-        }
-        return badThrow;
+	}
 
-    }
+	private boolean testIfBad(int[] resultList) {
+		boolean badThrow = false;
+		boolean firstBadThrowCatched = false;
+		for (int element : resultList)
+			if (element == 0 || element == 1)
+				if (!firstBadThrowCatched)
+					firstBadThrowCatched = true;
+				else {
+					badThrow = true;
+					break;
+				}
+		return badThrow;
 
-    private String makeListToString(int[] resultList) {
-        String temp = "";
-        for (int i = 0; i < resultList.length; i++) {
-            temp += Integer.toString(resultList[i]);
-            temp += " ";
-        }
-        return temp;
-    }
+	}
 
-    private int makeListToResult(int[] resultList) {
-        int temp = 0;
-        for (int i = 0; i < resultList.length; i++) {
-            temp += resultList[i];
-        }
-        return temp;
-    }
+	private String makeListToString(int[] resultList) {
+		String temp = "";
+		for (int element : resultList) {
+			temp += Integer.toString(element);
+			temp += " ";
+		}
+		return temp;
+	}
 
-    // Java method to find second largest
-    // number in array
-    private int secondlargest(int[] arr) {
+	private int makeListToResult(int[] resultList) {
+		int temp = 0;
+		for (int element : resultList)
+			temp += element;
+		return temp;
+	}
 
-        // declare variables
-        int fmax = 0; // first largest
-        int smax = 0; // second largest
+	// Java method to find second largest
+	// number in array
+	private int secondlargest(int[] arr) {
 
-        // assign first element to fmax, smax
-        fmax = arr[0];
-        smax = arr[0];
+		// declare variables
+		int fmax = 0; // first largest
+		int smax = 0; // second largest
 
-        // compare with remaining elements
-        // loop
-        for (int i = 1; i < arr.length; i++) {
-            if (fmax < arr[i]) {
-                smax = fmax;
-                fmax = arr[i];
-            } else if (smax < arr[i]) {
-                smax = arr[i];
-            }
-        }
+		// assign first element to fmax, smax
+		fmax = arr[0];
+		smax = arr[0];
 
-        // return second largest number
-        return smax;
-    }
+		// compare with remaining elements
+		// loop
+		for (int i = 1; i < arr.length; i++)
+			if (fmax < arr[i]) {
+				smax = fmax;
+				fmax = arr[i];
+			} else if (smax < arr[i])
+				smax = arr[i];
 
-    private int largest(int[] arr) {
-        // Create maxValue variable and initialize with 0
-        int maxValue = 0;
+		// return second largest number
+		return smax;
+	}
 
-        // Check maximum element using for loop
-        for (Integer integer : arr) {
-            if (integer > maxValue)
-                maxValue = integer;
-        }
-        return maxValue;
-    }
+	private int largest(int[] arr) {
+		// Create maxValue variable and initialize with 0
+		int maxValue = 0;
+
+		// Check maximum element using for loop
+		for (Integer integer : arr)
+			if (integer > maxValue)
+				maxValue = integer;
+		return maxValue;
+	}
 }

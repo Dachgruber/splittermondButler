@@ -5,7 +5,6 @@ package model.tickbar;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 
 import net.dv8tion.jda.api.entities.User;
 
@@ -16,16 +15,17 @@ import net.dv8tion.jda.api.entities.User;
 public class Controller implements TickBar {
 
 	private int currentTick;
-	
-	private final HashMap<String,Item> markers;
-	
+
+	private final HashMap<String, Item> markers;
+
 	public Controller() {
 		this.currentTick = 0;
 		this.markers = new HashMap<>();
 	}
+
 	@Override
 	public void start() {
-		this.currentTick = this.calcLowestPos();	//calcLowestPos returns 0 if no marker is below 0
+		this.currentTick = this.calcLowestPos(); // calcLowestPos returns 0 if no marker is below 0
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class Controller implements TickBar {
 
 	@Override
 	public int getCurrentTick() {
-		return currentTick;
+		return this.currentTick;
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class Controller implements TickBar {
 
 	@Override
 	public void addEnemy(int startingPos, String name, String shortDesc) {
-		this.markers.put(name,new Enemy(startingPos, name, shortDesc));
+		this.markers.put(name, new Enemy(startingPos, name, shortDesc));
 
 	}
 
@@ -76,7 +76,6 @@ public class Controller implements TickBar {
 
 	}
 
-	
 	@Override
 	public void setPosOfPlayer(User user, int newPos) {
 		this.markers.get(user.getName()).setPos(newPos);
@@ -113,13 +112,11 @@ public class Controller implements TickBar {
 
 	@Override
 	public String getTurnsAtPos(int checkPos) {
-		 String returnString = "";
-		 for (Item i : markers.values()) {
-			 if (i.getPos() == checkPos) {
-				 returnString += i.getName() + ", ";
-			 }
-		 }
-	     return returnString; 
+		String returnString = "";
+		for (Item i : this.markers.values())
+			if (i.getPos() == checkPos)
+				returnString += i.getName() + ", ";
+		return returnString;
 	}
 
 	@Override
@@ -131,44 +128,42 @@ public class Controller implements TickBar {
 	public ArrayList<ArrayList<String>> getNextMoves(int numberOfNextMoves) {
 		ArrayList<ArrayList<String>> lines = new ArrayList<>();
 
-        //we only look at the next few moves....
-        for (int i = 0; i < numberOfNextMoves; i++) {
+		// we only look at the next few moves....
+		for (int i = 0; i < numberOfNextMoves; i++) {
 
-            //create the entry array and add the current move
-            ArrayList<String> entry = new ArrayList<>();
-            entry.add(this.getCurrentTick() + i + ":");
-            
-            //then add the names of the marker at this point
-            entry.add(getTurnsAtPos(this.getCurrentTick() + i));
+			// create the entry array and add the current move
+			ArrayList<String> entry = new ArrayList<>();
+			entry.add(this.getCurrentTick() + i + ":");
 
-        }
-        return lines;
+			// then add the names of the marker at this point
+			entry.add(this.getTurnsAtPos(this.getCurrentTick() + i));
+
+		}
+		return lines;
 	}
-	
+
 	/**
 	 * finds the lowest position of the current marker set
+	 *
 	 * @return lowest position, 0 if every marker is positive
 	 */
 	private int calcLowestPos() {
-		
+
 		int lowestPos = 0;
-		//go through every added marker
-		for (Item i : markers.values()) {
-			if (i.getPos()<lowestPos)
+		// go through every added marker
+		for (Item i : this.markers.values())
+			if (i.getPos() < lowestPos)
 				lowestPos = i.getPos();
-		}
 		return lowestPos;
 	}
-	
-	
+
+	@Override
 	public ArrayList<String> getStartingPlayersAsMentions() {
 		ArrayList<String> players = new ArrayList<>();
 
-		for (Item i : markers.values()) {
-			if (i.isPlayer()) {				//we only want to return players
-				players.add(i.getName());		//type casting is ugly, may be changed in the future
-			}
-		}
+		for (Item i : this.markers.values())
+			if (i.isPlayer())
+				players.add(i.getName()); // type casting is ugly, may be changed in the future
 		return players;
 	}
 }

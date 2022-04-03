@@ -5,10 +5,11 @@ public class Item {
 	private int pos;
 	private String name;
 	private ItemType type;
-	
+
 	/**
 	 * generate a new Item on the Tickbar
-	 * @param pos position on the tickbar
+	 *
+	 * @param pos  position on the tickbar
 	 * @param name display name
 	 */
 	public Item(int pos, String name) {
@@ -16,11 +17,10 @@ public class Item {
 		this.name = name;
 	}
 
+	// getters and setters
 
-	 // getters and setters
-	 
 	public int getPos() {
-		return pos;
+		return this.pos;
 	}
 
 	public void setPos(int pos) {
@@ -28,7 +28,7 @@ public class Item {
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public void setName(String name) {
@@ -36,23 +36,23 @@ public class Item {
 	}
 
 	public ItemType getType() {
-		return type;
+		return this.type;
 	}
 
 	public void setType(ItemType type) {
 		this.type = type;
 	}
-	
-	//check functions for convenience
-	
+
+	// check functions for convenience
+
 	public boolean isPlayer() {
 		return this.type == ItemType.PLAYER;
 	}
-	
+
 	public boolean isEnemy() {
 		return this.type == ItemType.ENEMY;
 	}
-	
+
 	public boolean isMessage() {
 		return this.type == ItemType.MSG;
 	}
