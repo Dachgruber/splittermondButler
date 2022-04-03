@@ -6,22 +6,26 @@ import java.util.Arrays;
 import org.apache.commons.lang3.ArrayUtils;
 
 /**
- * a command is a custom data set that includes a prefix, a actual order and an string array of arguments
+ * A command is a custom data set that represents the commands send from the user to the software.
+ * It always includes a prefix, the actual instruction and a variable number of arguments.
+ * Depending on the type of command the arguments could include secondary instructions, integers, single chars etc.
  *
  * @author Cornelius
  */
 public class Command {
-    private String prefix = "!";
+    private String prefix;
     private String cmd;
     private String[] args;
 
     /**
-     * creates a new command and assign every part of it
+     * Creates a new Command from a string input. Assigns prefix, instruction and
+     * creates a argument field
      *
-     * @param fullCommand Command
+     * @param fullCommand Command as String
      */
     public Command(String fullCommand) {
         String[] parts = this.splitCommand(fullCommand);
+        this.prefix = parts[0];
         this.cmd = parts[1];
         this.args = Arrays.copyOfRange(parts, 2, parts.length);
     }
@@ -56,7 +60,7 @@ public class Command {
 	 * @param str String that needs splitting
 	 * @return ArrayList with every block of string in own entry
 	 */
-	private ArrayList<String> splitByType(String str) {
+	private ArrayList<String> splitByType(String str) {					//this is imported from another project of mine
 		ArrayList <String> returnArray = new ArrayList<>();
 		//save the type of the first char to compare it later
 		int previousType = Character.getType(str.charAt(0)); 
@@ -99,7 +103,7 @@ public class Command {
 		return returnArray;
 	}
     
-    // getter and setter
+    //getters and setters, self explanatory
     public String getPrefix() {
         return prefix;
     }
@@ -120,18 +124,37 @@ public class Command {
         return args;
     }
 
-    // set the full args array
+   /**
+    * override the current arguments with a new array, use with caution!
+    * @param args
+    */
     public void setArgs(String[] args) {
         this.args = args;
     }
 
-    // only set one specific argument
+  /**
+   * update one specific argument on a specific position.
+   * Note that prefix and instruction arent counted in the pos integer
+   * @param pos Position of argument
+   * @param arg	content as String
+   */
     public void setArgs(int pos, String arg) {
         this.args[pos] = arg;
     }
 
+    /**
+     * Assembles the full Command into a single string. 
+     * The different parts are spaced with a whitespace character
+     * @return
+     */
     public String getRawCommand() {
-        return prefix + cmd + ArrayUtils.toString(args);
+    	String returnString = prefix + ' ' + cmd;
+    	
+    	for (String s: this.args) {
+    		returnString+= ' ' + s;
+    	}
+    	
+        return  returnString;
     }
 
 	
