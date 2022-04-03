@@ -1,6 +1,9 @@
 package view;
 
 import java.awt.Color;
+import java.util.Arrays;
+
+import org.apache.commons.lang3.ArrayUtils;
 
 import model.Roll;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -43,7 +46,7 @@ public class RollTemplate {
             embed.addField("Critical Success!", "", false);
         }
         if (testIfBad(rollEvent.getResultField())) {
-            embed.addField("Critical Success!", "", false);
+            embed.addField("Critical Failure!", "", false);
         }
 
         embed.setColor(Color.GREEN);
@@ -123,28 +126,44 @@ public class RollTemplate {
 //		return embed;
 //	}
 
+    /**
+     * checks if the throw is considered a critical success.
+     * Only twice the bestPossible, or one bestPossible and one bestPossible-1 result in critical success
+     * @param resultList
+     * @param bestPossible
+     * @return true if resultList contains criticalSuccess
+     */
     private boolean testIfGood(int[] resultList, int bestPossible) {
-        boolean firstGoodThrowCatched = false;
-        for (int i = 0; i < resultList.length; i++) {
-            //only check if ...
-            if (resultList[i] == bestPossible || resultList[i] == bestPossible - 1) {
-                //if the ....
-                if (!firstGoodThrowCatched) firstGoodThrowCatched = true;
-                else return true;
-            }
-        }
-        return false;
+    	//the bestPossible has to be included everytime
+    	if (ArrayUtils.contains(resultList, bestPossible)){
+    		//remove the bestPossible to search for another one
+    		int[] tempArray = ArrayUtils.remove(resultList,  ArrayUtils.indexOf(resultList, bestPossible));
+    		//if the num next to bestPossible is included or the bestPossible is included twice, the throw is a success!
+    		if (ArrayUtils.contains(tempArray, bestPossible-1) || ArrayUtils.contains(tempArray, bestPossible)) {
+    			return true;
+    		}
+    	}
+    	return false;
     }
-
+   
+    /**
+     * checks if the throw is considered a critical failure.
+     * Only twice the bestPossible, or one bestPossible and one bestPossible-1 result in critical success
+     * @param resultList
+     * @param bestPossible
+     * @return true if resultList contains criticalSuccess
+     */
     private boolean testIfBad(int[] resultList) {
-        boolean firstBadThrowCatched = false;
-        for (int i = 0; i < resultList.length; i++) {
-            if (resultList[i] == 0 || resultList[i] == 1) {
-                if (!firstBadThrowCatched) firstBadThrowCatched = true;
-                else return true;
-            }
-        }
-        return false;
+    	//the worst possible result 1 has to be included everytime
+    	if (ArrayUtils.contains(resultList, 1)) {
+    		//remove the 1 to search for a second 1
+    		int[] tempArray = ArrayUtils.remove(resultList, ArrayUtils.indexOf(resultList, 1));
+    		//if another 1 or a 2 is included, the throw is a failure!
+    		if (ArrayUtils.contains(tempArray, 1) || ArrayUtils.contains(tempArray, 2)) {
+    			return true;
+    		}
+    	}
+    	return false;
     }
 
     private String makeListToString(int[] resultList) {
