@@ -1,1 +1,13 @@
-amboss des friedens: desc1;todesbraten: desc2;nudelNudel: desc3;testItem:desc4;lustiger Peter:dummes Item; Kanonenspatz:dumme Sache; WeiÃŸbier:sonderzeichen Ã¤Ã¶Ã¼;
+//Beispieldokument für die Bullshit-Bingo Tabelle
+//Ein Item besteht aus einem Namen und einer (kurzen) Beschreibung.
+
+//bitte den Syntax beachten! Name:Beschreibung;
+TollerItemName:Das ist eine kleine Beschreibung;
+
+//Kommentare werden ein eine eigene Zeile geschrieben und mit // gekennzeichnet
+Stock:Dieses Item ist im Bingo;
+//Stein:Dieses Item ist nicht im Bingo;
+
+//Sonderzeichen sind kein Problem. Das Dokument muss aber in ANSI-Kodierung abgespeichert sein!
+Klassische Scamnachricht:Schaü Mämi, ik häbé g@nz viel€ Sönderßeichen;
+
