@@ -12,17 +12,20 @@ import java.util.Set;
  * @author Cornelius
  *
  */
-public class BingoTable implements Controller {
+public class BingoTable implements Bingo {
 
 	private static int classID = 0;
 
 	private HashMap<Integer, BingoItem> table;
 
 	private FileManager fm;
+	
+	private Random rnd;
 
 	public BingoTable() {
 		this.table = new HashMap<>();
 		this.fm = new FileManager();
+		this.rnd = new Random();
 	}
 
 	@Override
@@ -32,18 +35,28 @@ public class BingoTable implements Controller {
 
 	@Override
 	public String[] catchBingo() {
-		Object[] keys = this.table.keySet().toArray();
-		Object rndkey = keys[new Random().nextInt(keys.length)];
+		Integer rndkey = rnd.nextInt(table.size()-1);
+		
 		BingoItem possibleItem = this.table.get(rndkey);
-
+		
 		// check if item was already picked.
 		// if item is deactivated, try to pick a new item
-		if (!possibleItem.isActive())
-			return this.catchBingo();
-		else
-			return possibleItem.deactivate().asStringArray();
+		// first, save the start item so that we know when we tried every item
+		BingoItem firstItem = possibleItem;
+		while (!possibleItem.isActive()) {
+			//try the next item in the table. 
+			//If we reach the end, start from the top
+			rndkey = (rndkey+1) % (this.table.size());
+			possibleItem = this.table.get(rndkey);
+			//if we tried every item, break and return null
+			if(possibleItem.equals(firstItem)) {
+				String[] tempArray = {"No bingo for you"};
+				return tempArray ;
+			}
+		}	
+		return possibleItem.deactivate().asStringArray();
 	}
-
+	
 	@Override
 	public void resetTable() {
 		for (BingoItem entry : this.table.values())
@@ -66,6 +79,23 @@ public class BingoTable implements Controller {
 		} else
 			return false;
 
+	}
+	
+	/**
+	 * temporary function for debugging purposes. Loads table from TXT and includes it.
+	 * @deprecated
+	 * @throws Exception
+	 */
+	@Override
+	public void loadTableFromTxt() throws Exception {
+		String[] items = fm.loadFileFromTxt();
+		for (String entry: items) {
+			String[] itemArgs = entry.split(":");
+			this.addItem(itemArgs[0], itemArgs[1], Rarity.COMMON);
+			System.out.println("added item: " + itemArgs[0]);
+		}
+		
+		
 	}
 
 	@Override
