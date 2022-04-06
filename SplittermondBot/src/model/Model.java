@@ -88,4 +88,9 @@ public interface Model {
 	 * show the position of the user that send the current message
 	 */
 	void showPosOfPlayer();
+
+	/**
+	 * TODO debug method. Loads TXT-File for Bingo
+	 */
+	void loadFileFromTxt();
 }

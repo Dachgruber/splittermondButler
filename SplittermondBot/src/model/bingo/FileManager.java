@@ -93,7 +93,8 @@ public class FileManager {
 		StringBuilder sb = new StringBuilder();
 
 		while (line != null) {
-			sb.append(line).append("\n");
+			sb.append(line).append("");
+			System.out.println("line");
 			line = br.readLine();
 		}
 
