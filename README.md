@@ -13,6 +13,7 @@ Discord-Bot built on JDA for use in Discord-based online PnP servers. Created fo
 ### Dependencies
 - [Discord JDA](https://github.com/DV8FromTheWorld/JDA.git) (duh)
 - [Apache Commons Lang](https://mvnrepository.com/artifact/org.apache.commons/commons-lang3)
+- [MockNeat](https://github.com/nomemory/mockneat)
 - [libsplittermond](https://www.rpgframework.de/index.php/de/entwicklung/libsplittermond/) currently not used
 - Java 14 or above
 
