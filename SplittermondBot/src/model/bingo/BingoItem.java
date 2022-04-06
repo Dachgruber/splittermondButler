@@ -1,12 +1,15 @@
 package model.bingo;
+
 /**
- * a BingoItem has a unique identification number (managed by the Table class), a name and a description. The active-boolean is hidden and used to determine
- * if the item was already picked or not. The Rarity parameter is used in the Table class to modify their probability of getting caught.
+ * a BingoItem has a unique identification number (managed by the Table class),
+ * a name and a description. The active-boolean is hidden and used to determine
+ * if the item was already picked or not. The Rarity parameter is used in the
+ * Table class to modify their probability of getting caught.
+ *
  * @author Cornelius
  *
  */
 public class BingoItem implements java.io.Serializable {
-
 
 	private static final long serialVersionUID = 5735156531186608841L;
 	private int id;
@@ -14,9 +17,9 @@ public class BingoItem implements java.io.Serializable {
 	private String desc;
 	private Rarity rarity;
 	private boolean active;
-	
-	public BingoItem(int id, String name, String desc, Rarity rarity ) {
-		
+
+	public BingoItem(int id, String name, String desc, Rarity rarity) {
+
 		this.id = id;
 		this.name = name;
 		this.desc = desc;
@@ -25,7 +28,7 @@ public class BingoItem implements java.io.Serializable {
 	}
 
 	public int getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(int id) {
@@ -33,7 +36,7 @@ public class BingoItem implements java.io.Serializable {
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public void setName(String name) {
@@ -41,7 +44,7 @@ public class BingoItem implements java.io.Serializable {
 	}
 
 	public String getDesc() {
-		return desc;
+		return this.desc;
 	}
 
 	public void setDesc(String desc) {
@@ -49,21 +52,21 @@ public class BingoItem implements java.io.Serializable {
 	}
 
 	public boolean isActive() {
-		return active;
+		return this.active;
 	}
 
 	public BingoItem activate() {
-		this.active =true;
+		this.active = true;
 		return this;
 	}
-	
+
 	public BingoItem deactivate() {
 		this.active = false;
 		return this;
 	}
 
 	public Rarity getRarity() {
-		return rarity;
+		return this.rarity;
 	}
 
 	public void setRarity(Rarity rarity) {
@@ -71,8 +74,8 @@ public class BingoItem implements java.io.Serializable {
 	}
 
 	public String[] asStringArray() {
-		String[] returnArray = { Integer.toString(id) , this.name, this.desc, this.rarity.toString(), Boolean.toString(this.active) };	
-		return returnArray;		
+		return new String[] { Integer.toString(this.id), this.name, this.desc, this.rarity.toString(),
+				Boolean.toString(this.active) };
 	}
 
 }
