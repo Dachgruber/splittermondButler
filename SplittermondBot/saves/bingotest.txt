@@ -1,0 +1,1 @@
+amboss des friedens: desc1;todesbraten: desc2;nudelNudel: desc3;testItem:desc4;lustiger Peter:dummes Item; Kanonenspatz:dumme Sache; Weißbier:sonderzeichen äöü;
