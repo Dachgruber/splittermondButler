@@ -112,7 +112,7 @@ public class DiceController implements Controller {
 					this.view.displayMsg("donkey - second tick command is missing");
 				break;
 			case "bingo":
-				String bingoResult = this.model.rollBingo();
+				String[] bingoResult = this.model.rollBingo();
 				this.view.displayBingo(bingoResult);
 				break;
 				

@@ -38,8 +38,8 @@ public class DiceModel implements Model {
 	// ------------------------------BullshitBingo
 	// Section----------------------------------
 	@Override
-	public String rollBingo() {
-		return this.bingo.catchBingoAsString();
+	public String[] rollBingo() {
+		return this.bingo.catchBingo();
 	}
 	
 	@Override

@@ -50,7 +50,7 @@ public interface View {
 
 	void displayGMRoll(Roll r);
 
-	void displayBingo(String bingoResult);
-
 	void askGM(String string);
+
+	void displayBingo(String[] bingoResult);
 }

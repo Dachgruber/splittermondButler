@@ -198,7 +198,7 @@ public class DiscordView extends ListenerAdapter implements View {
 	}
 
 	@Override
-	public void displayBingo(String bingoResult) {
+	public void displayBingo(String[] bingoResult) {
 		Role gmRole = this.findRole(this.currentEvent.getGuild(), this.GM_ROLENAME);
 		Member gm = this.currentEvent.getGuild().getMembersWithRoles(gmRole).get(0);
 

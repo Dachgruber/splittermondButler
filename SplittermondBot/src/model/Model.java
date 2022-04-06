@@ -24,7 +24,7 @@ public interface Model {
 	 *
 	 * @return bullshitbingo item
 	 */
-	String rollBingo();
+	String[] rollBingo();
 
 	/**
 	 * gives a discord user role
