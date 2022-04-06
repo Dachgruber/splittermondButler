@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.text.Normalizer;
 import java.text.ParseException;
 import java.util.HashMap;
 
@@ -89,16 +90,30 @@ public class FileManager {
 	@Deprecated
 	public String[] loadFileFromTxt() throws IOException {
 		BufferedReader br = new BufferedReader(new FileReader(FileManager.TXTFILEPATH));
-		String line = br.readLine();
+		String line = this.replaceGermanChars(br.readLine());
 		StringBuilder sb = new StringBuilder();
 
 		while (line != null) {
 			sb.append(line).append("");
-			System.out.println("line");
+			
 			line = br.readLine();
 		}
 
 		return sb.toString().split(";");
 
+	}
+	
+	/**
+	 * removing the german umlauts to something the console doesnt get a stroke from. 
+	 * Converting 
+	 * 	ä -> a
+	 * 	ö -> o
+	 *  ü -> u
+	 *  ß -> s
+	 * @param inputString
+	 * @return normalized String
+	 */
+	private String replaceGermanChars(String inputString) {
+		return inputString.replaceAll("ä", "ae").replaceAll("ö", "oe").replaceAll("ü", "ue").replaceAll("ß", "ss");
 	}
 }
