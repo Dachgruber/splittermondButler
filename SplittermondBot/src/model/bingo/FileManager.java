@@ -90,16 +90,17 @@ public class FileManager {
 	@Deprecated
 	public String[] loadFileFromTxt() throws IOException {
 		BufferedReader br = new BufferedReader(new FileReader(FileManager.TXTFILEPATH));
-		String line = this.replaceGermanChars(br.readLine());
+		String line = br.readLine();
 		StringBuilder sb = new StringBuilder();
 
 		while (line != null) {
-			sb.append(line).append("");
+			if (!line.startsWith("//"))
+				sb.append(line).append("");
 			
 			line = br.readLine();
 		}
 
-		return sb.toString().split(";");
+		return sb.toString().replaceAll("\n","").split(";");
 
 	}
 	
@@ -114,6 +115,16 @@ public class FileManager {
 	 * @return normalized String
 	 */
 	private String replaceGermanChars(String inputString) {
-		return inputString.replaceAll("ä", "ae").replaceAll("ö", "oe").replaceAll("ü", "ue").replaceAll("ß", "ss");
+		String newString = inputString.replace("\u00fc", "ue")
+	            .replace("\u00f6", "oe")
+	            .replace("\u00e4", "ae")
+	            .replace("\u00df", "ss")
+	            .replaceAll("\u00dc(?=[a-z\u00e4\u00f6\u00fc\u00df ])", "Ue")
+	            .replaceAll("\u00d6(?=[a-z\u00e4\u00f6\u00fc\u00df ])", "Oe")
+	            .replaceAll("\u00c4(?=[a-z\u00e4\u00f6\u00fc\u00df ])", "Ae")
+	            .replace("\u00dc", "UE")
+	            .replace("\u00d6", "OE")
+	            .replace("\u00c4", "AE");
+	    return newString;
 	}
 }
