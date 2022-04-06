@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-import model.tickbar.Controller;
+import model.bingo.Bingo;
+import model.bingo.BingoTable;
+import model.tickbar.*;
 import model.tickbar.TickBar;
 import net.dv8tion.jda.api.entities.User;
 import view.View;
@@ -12,11 +14,13 @@ import view.View;
 public class DiceModel implements Model {
 	TickBar tb; // TODO: access rights
 	View view;
+	Bingo bingo;
 
 	final String BULLSHIT_PATH = "txt/bullshit.txt";
 
 	public DiceModel(View view) {
 		this.view = view;
+		this.bingo = new BingoTable();
 	}
 
 	// ------------------------------Dice
@@ -35,25 +39,18 @@ public class DiceModel implements Model {
 	// Section----------------------------------
 	@Override
 	public String rollBingo() {
-		String[] items;
-		String result = "bullshitbingo failed";
-		try {
-			items = this.loadFileAsString(this.BULLSHIT_PATH).split(";"); // The Items are separated in the txt by an ;
-
-			System.out.println("Bingo rolled, length, result");
-			System.out.println(items.length - 1);
-
-			Roll bbroll = new Roll(1, items.length - 1); // -1 as the last item in the array it always empty
-			bbroll.RollTheDice();
-
-			System.out.println(bbroll.getResult());
-
-			result = items[bbroll.getResult() - 1]; // as the dice results start with 1, not 0
-		} catch (IOException e) {
+		return this.bingo.catchBingoAsString();
+	}
+	
+	@Override
+	public void loadFileFromTxt() {
+		 try {
+			this.bingo.loadTableFromTxt();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		return result;
+		 
 	}
 
 	// ------------------------------TickBar
@@ -165,4 +162,6 @@ public class DiceModel implements Model {
 			return sb.toString();
 		}
 	}
+
+	
 }
