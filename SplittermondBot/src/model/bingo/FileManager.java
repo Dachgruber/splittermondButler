@@ -83,11 +83,10 @@ public class FileManager {
 	 * loads the txt-file from a determined filepath and builds a StringArray from
 	 * the content. Used to load a preset txt into the software.
 	 *
-	 * @deprecated
-	 * @return
+	 * @return StringArray with every line of the txt.file in their own element
 	 * @throws IOException
 	 */
-	@Deprecated
+	
 	public String[] loadFileFromTxt() throws IOException {
 		BufferedReader br = new BufferedReader(new FileReader(FileManager.TXTFILEPATH));
 		String line = br.readLine();

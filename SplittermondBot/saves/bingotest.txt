@@ -1,13 +1,14 @@
 //Beispieldokument für die Bullshit-Bingo Tabelle
-//Ein Item besteht aus einem Namen und einer (kurzen) Beschreibung.
+//Ein Item besteht aus einem Namen und einer (kurzen) Beschreibung. Jedes Item hat zudem einen Seltenheitswert (Rarity)
+//Beispiele für Rarity: COMMON,UNCOMMON,RARE,EPIC,LEGENDARY
 
-//bitte den Syntax beachten! Name:Beschreibung;
-TollerItemName:Das ist eine kleine Beschreibung;
+//bitte den Syntax beachten! Name:Beschreibung:Rarity;
+TollerItemName:Das ist eine kleine Beschreibung:COMMON;
 
 //Kommentare werden ein eine eigene Zeile geschrieben und mit // gekennzeichnet
-Stock:Dieses Item ist im Bingo;
+Stock:Dieses Item ist im Bingo:UNCOMMON;
 //Stein:Dieses Item ist nicht im Bingo;
 
 //Sonderzeichen sind kein Problem. Das Dokument muss aber in ANSI-Kodierung abgespeichert sein!
-Klassische Scamnachricht:Schaü Mämi, ik häbé g@nz viel€ Sönderßeichen;
+Klassische Scamnachricht:Schaü Mämi, ik häbé g@nz viel€ Sönderßeichen:EPIC;
 
