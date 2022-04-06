@@ -59,7 +59,7 @@ public class Commands {
 			{ "start", "fight", "battle" };
 
 	// -----------------------------Valid CMDs--------------------------------
-	private final String[] validCommands = { "roll", "gmroll", "giveRole", "removeRole", "tick", "bingo" };
+	private final String[] validCommands = { "roll", "gmroll", "giveRole", "removeRole", "tick", "bingo", "debug" };
 
 	private final String[] validOperator = { "+", "-" };
 

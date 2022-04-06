@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * @author Cornelius
  *
  */
-public interface Controller {
+public interface Bingo {
 
 	/**
 	 * get a random BingoItem as a single String and deactivate the Item
@@ -69,5 +69,12 @@ public interface Controller {
 	 * @return String matrix with whole table
 	 */
 	ArrayList<String[]> listTable();
+
+	/**
+	 * temporary function for debugging purposes. Loads table from TXT and includes it.
+	 * @deprecated
+	 * @throws Exception
+	 */
+	void loadTableFromTxt() throws Exception;
 
 }

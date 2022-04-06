@@ -115,6 +115,11 @@ public class DiceController implements Controller {
 				String bingoResult = this.model.rollBingo();
 				this.view.displayBingo(bingoResult);
 				break;
+				
+			//TODO debug section, heavily changing during dev process. Will be removed/hidden in v1.0.0
+			case "debug":
+				this.model.loadFileFromTxt();
 			}
+		
 	}
 }
