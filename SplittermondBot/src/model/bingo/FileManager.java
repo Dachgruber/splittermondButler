@@ -105,26 +105,23 @@ public class FileManager {
 	}
 	
 	/**
-	 * removing the german umlauts to something the console doesnt get a stroke from. 
-	 * Converting 
-	 * 	ä -> a
-	 * 	ö -> o
-	 *  ü -> u
-	 *  ß -> s
+	 * Changing the german umlauts to something the console doesnt get a stroke from. 
+	 * Converting ä->ae,ü->ue etc
 	 * @param inputString
 	 * @return normalized String
 	 */
+	//currently unused as ANSI encoding works with the txt, may be used in the future tho
 	private String replaceGermanChars(String inputString) {
-		String newString = inputString.replace("\u00fc", "ue")
-	            .replace("\u00f6", "oe")
-	            .replace("\u00e4", "ae")
-	            .replace("\u00df", "ss")
-	            .replaceAll("\u00dc(?=[a-z\u00e4\u00f6\u00fc\u00df ])", "Ue")
-	            .replaceAll("\u00d6(?=[a-z\u00e4\u00f6\u00fc\u00df ])", "Oe")
-	            .replaceAll("\u00c4(?=[a-z\u00e4\u00f6\u00fc\u00df ])", "Ae")
-	            .replace("\u00dc", "UE")
-	            .replace("\u00d6", "OE")
-	            .replace("\u00c4", "AE");
+		String newString = inputString.replace("\u00fc", "ue") 					// ü -> ue 
+	            .replace("\u00f6", "oe")										// ö -> oe
+	            .replace("\u00e4", "ae")										// ä -> ae
+	            .replace("\u00df", "ss")										// ß -> ss
+	            .replaceAll("\u00dc(?=[a-z\u00e4\u00f6\u00fc\u00df ])", "Ue")	// Ü gefolgt vom kleinem Buchstaben -> Ue
+	            .replaceAll("\u00d6(?=[a-z\u00e4\u00f6\u00fc\u00df ])", "Oe")	// Ä gefolgt vom kleinem Buchstaben -> Ae
+	            .replaceAll("\u00c4(?=[a-z\u00e4\u00f6\u00fc\u00df ])", "Ae")	// Ö gefolgt vom kleinem Buchstaben -> Oe
+	            .replace("\u00dc", "UE")										// Ü -> UE
+	            .replace("\u00d6", "OE")										// Ö -> OE
+	            .replace("\u00c4", "AE");										// Ä -> AE
 	    return newString;
 	}
 }
