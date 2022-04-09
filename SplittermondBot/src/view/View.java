@@ -53,4 +53,10 @@ public interface View {
 	void askGM(String string);
 
 	void displayBingo(String[] bingoResult);
+
+	void displayBingoList(ArrayList<String[]> listTable);
+
+	boolean isAuthorGM();
+
+	boolean isAuthorAdmin();
 }
