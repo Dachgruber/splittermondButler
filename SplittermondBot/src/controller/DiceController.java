@@ -154,7 +154,7 @@ public class DiceController implements Controller {
 				
 			//TODO debug section, heavily changing during dev process. Will be removed/hidden in v1.0.0
 			case "debug":
-				this.model.loadFileFromTxt();
+				this.model.saveFileToTXT();
 			}
 		
 	}

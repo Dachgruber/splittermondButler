@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.text.Normalizer;
 import java.text.ParseException;
 import java.util.HashMap;
@@ -30,6 +31,7 @@ public class FileManager {
 	// use this for both loading and saving, so that only one save slot is forced
 	private static final String SAVEFILEPATH = "./saves/bingotest.ser";
 	private static final String TXTFILEPATH = "./saves/bingotest.txt";
+	private static final String TXTBACKUPFILEPATH = "./saves/backup_bingotest.txt";
 
 	/**
 	 * saves a HashMap to a determined file location. Only one save is currently
@@ -100,6 +102,24 @@ public class FileManager {
 		}
 
 		return sb.toString().replaceAll("\n","").split(";");
+
+	}
+	
+	/**
+	 * loads the txt-file from a determined filepath and builds a StringArray from
+	 * the content. Used to load a preset txt into the software.
+	 *
+	 * @return StringArray with every line of the txt.file in their own element
+	 * @throws IOException
+	 */
+	
+	public void saveFileToTxt(String[] saveString) throws IOException {
+		try(PrintWriter out = new PrintWriter(FileManager.TXTBACKUPFILEPATH)){
+		
+			for (String entry: saveString) {
+				out.println(entry);
+			}
+		}
 
 	}
 	

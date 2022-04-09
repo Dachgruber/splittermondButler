@@ -217,5 +217,11 @@ public class DiceModel implements Model {
 		
 	}
 
+	@Override
+	public void saveFileToTXT() {
+		
+		
+	}
+
 	
 }

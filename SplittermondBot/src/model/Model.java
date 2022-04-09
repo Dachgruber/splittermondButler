@@ -107,4 +107,6 @@ public interface Model {
 	void removeBingoItem(String string);
 
 	void importBingo();
+
+	void saveFileToTXT();
 }
