@@ -93,4 +93,18 @@ public interface Model {
 	 * TODO debug method. Loads TXT-File for Bingo
 	 */
 	void loadFileFromTxt();
+
+	void loadBingo();
+
+	void saveBingo();
+
+	void resetBingo();
+
+	void listBingo();
+
+	void addBingoItem(String string, String string2, String string3);
+
+	void removeBingoItem(String string);
+
+	void importBingo();
 }

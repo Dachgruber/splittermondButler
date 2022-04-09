@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import model.bingo.Bingo;
 import model.bingo.BingoTable;
+import model.bingo.Rarity;
 import model.tickbar.*;
 import model.tickbar.TickBar;
 import net.dv8tion.jda.api.entities.User;
@@ -161,6 +162,59 @@ public class DiceModel implements Model {
 
 			return sb.toString();
 		}
+	}
+
+	@Override
+	public void loadBingo() {
+		try {
+			this.bingo.loadTable();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	@Override
+	public void saveBingo() {
+		this.bingo.saveTable();
+		
+	}
+
+	@Override
+	public void resetBingo() {
+		this.bingo.resetTable();
+		
+	}
+
+	@Override
+	public void listBingo() {
+		this.view.displayBingoList( this.bingo.listTable());
+		
+		
+	}
+
+	@Override
+	public void addBingoItem(String name, String desc, String rarity) {
+		this.bingo.addItem(name, desc, Rarity.valueOf(rarity.toUpperCase()));
+		
+	}
+
+	@Override
+	public void removeBingoItem(String id) {
+		this.bingo.removeItem(Integer.parseInt(id));
+		
+	}
+
+	@Override
+	public void importBingo() {
+		try {
+			this.bingo.loadTableFromTxt();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	

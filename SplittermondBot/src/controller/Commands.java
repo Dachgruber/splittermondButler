@@ -13,7 +13,33 @@ import java.util.Arrays;
 public class Commands {
 	private final String[] bingo = // play bullshit-bingo
 			{ "bbb", "bullshit", "bingo", "bullshitbingo", "nik" };
+	
+	private final String[] validBingoCmd = // play bullshit-bingo
+		{ "load", "save", "reset", "import", "list", "add", "remove" };
+	
+	private final String[] bingoLoad = 
+		{"load", "lade" };
+	
+	private final String[] bingoSave =
+		{"save", "speicher" };
+	
+	private final String[] bingoReset = 
+		{"reload", "reset" };
+	
+	private final String[] bingoImport = 
+		{"import" };
+	
+	private final String[] bingoList = 
+		{"list" };
+	
+	private final String[] bingoAdd = 
+		{"add", "new" };
+	
+	private final String[] bingoRemove = 
+		{"remove", "delete" };
 
+	//-------------------------------------------------------------
+	
 	private final String[] giveRole = // assign a role
 			{ "give", "get", "giveRole", "getRole" };
 
@@ -138,6 +164,35 @@ public class Commands {
 
 		return command;
 	}
+	
+	/**
+	 * corrects the command in the context of the bingo command. replaces the first
+	 * argument in the args array
+	 *
+	 * @param command Command
+	 * @return Command
+	 */
+	public Command correctBingoCommand(Command command) {
+		// get second word of the command, !bingo list etc
+		String lcCommand = command.getArgs()[0].toLowerCase();
+
+		if (Arrays.asList(this.bingoLoad).contains(lcCommand))
+			command.setArgs(0, "load");
+		else if (Arrays.asList(this.bingoSave).contains(lcCommand))
+			command.setArgs(0, "save");
+		else if (Arrays.asList(this.bingoReset).contains(lcCommand))
+			command.setArgs(0, "reset");
+		else if (Arrays.asList(this.bingoImport).contains(lcCommand))
+			command.setArgs(0, "import");
+		else if (Arrays.asList(this.bingoList).contains(lcCommand))
+			command.setArgs(0, "list");
+		else if (Arrays.asList(this.bingoAdd).contains(lcCommand))
+			command.setArgs(0, "add");
+		else if (Arrays.asList(this.bingoRemove).contains(lcCommand))
+			command.setArgs(0, "remove");
+
+		return command;
+	}
 
 	/**
 	 * gets the calc arguments from the command
@@ -239,6 +294,19 @@ public class Commands {
 		else
 			return false;
 
+	}
+	
+	/**
+	 * check if the given command is considered valid in the context of the bingo command
+	 * @param command
+	 * @return true if command is valid
+	 */
+	public boolean isValidBingo(Command command) {
+		String[] args = command.getArgs();
+		// check for case with no args, as the default !bingo is legal!
+				if (args.length == 0)
+					return true;
+		return Arrays.asList(this.validBingoCmd).contains(command.getArgs()[0]);
 	}
 
 }

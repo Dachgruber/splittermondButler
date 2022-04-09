@@ -112,9 +112,45 @@ public class DiceController implements Controller {
 					this.view.displayMsg("donkey - second tick command is missing");
 				break;
 			case "bingo":
-				String[] bingoResult = this.model.rollBingo();
-				this.view.displayBingo(bingoResult);
+
+				// does the bingo  come with a second command?
+				if (command.getArgs().length != 0) {
+					
+					//only admins and the gamemaster should be allowed to mess with the bingotable
+					if(this.view.isAuthorGM()|| this.view.isAuthorAdmin()) {
+						
+					//correct the bingo command and check if its valid
+						this.cmd.correctBingoCommand(command);
+						if (this.cmd.isValidBingo(command)) {
+						// get the first argument and check what action should be done
+							String secondCommand = command.getArgs()[0];
+						
+							switch(secondCommand) {
+							case "load" -> this.model.loadBingo();
+							case "save" -> this.model.saveBingo();
+							case "reset" -> this.model.resetBingo();
+							case "import" -> this.model.importBingo();
+							case "list" -> this.model.listBingo();
+							case "add" -> this.model.addBingoItem(command.getArgs()[1], command.getArgs()[2], command.getArgs()[3]);
+							case "remove" -> this.model.removeBingoItem(command.getArgs()[1]);
+							}
+						}
+					}
+					else {
+						this.view.reply("Insuffiecient rights - only admin or gamemaster are allowed to fuck with the bingo");
+					}
+					
+				}
+				else {
+					// if no extra command is given, roll the bingo
+					//everyone has the rights to just roll the bingo
+
+					String[] bingoResult = this.model.rollBingo();
+					this.view.displayBingo(bingoResult);
+					
+				}
 				break;
+				
 				
 			//TODO debug section, heavily changing during dev process. Will be removed/hidden in v1.0.0
 			case "debug":
