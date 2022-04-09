@@ -40,6 +40,10 @@ public class BingoTable implements Bingo {
 		boolean itemPicked = false;
 		
 		while (!itemPicked) {
+			if(table.size() < 1) {
+				throw new RuntimeException("The BingoTable is empty");
+			}
+			
 			//first, get a possible, randomly chosen item from the table
 			Integer rndkey = rnd.nextInt(table.size()-1);
 			possibleItem = this.table.get(rndkey);
@@ -55,8 +59,7 @@ public class BingoTable implements Bingo {
 				possibleItem = this.table.get(rndkey);
 				//if we tried every item, break and return null
 				if(possibleItem.equals(firstItem)) {
-					String[] tempArray = {"No bingo for you"};
-					return tempArray ;
+					throw new RuntimeException("The BingoTable has no active item");
 				}
 			}
 			
@@ -66,8 +69,8 @@ public class BingoTable implements Bingo {
 			}
 			
 		}
-		//return possibleItem.deactivate().asStringArray();
-		return possibleItem.asStringArray();
+		return possibleItem.deactivate().asStringArray();
+		//return possibleItem.asStringArray();
 	}
 	
 	/**
