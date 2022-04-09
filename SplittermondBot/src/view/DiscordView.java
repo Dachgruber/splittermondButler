@@ -19,6 +19,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -29,6 +30,8 @@ public class DiscordView extends ListenerAdapter implements View {
 	private final Controller cntrl;
 	private GuildMessageReceivedEvent currentEvent;
 	private final String TOKEN_PATH = "/bottoken.txt";
+
+	private final String ADMIN_ROLENAME = "Admin";
 	private final String GM_ROLENAME = "Gamemaster";
 	private final String PARTICIPANT_ROLENAME = "Participant";
 
@@ -207,5 +210,56 @@ public class DiscordView extends ListenerAdapter implements View {
 
 		this.currentEvent.getMessage().reply(embed.build()).queue();
 		embed.clear();
+	}
+
+	/**
+	 * d
+	 */
+	@Override
+	public void displayBingoList(ArrayList<String[]> listTable) {
+		
+			String outputString = "The bullshitbingo currently contains: \n" + "ID, Name, Description, Rarity, isActivated?\n";
+			for (String[] entryArray: listTable) {
+				for (String entryElem : entryArray) {
+					outputString += entryElem + ", ";
+				}
+				outputString += "\n";
+			}
+			
+			this.sendPrivateMessage(this.currentEvent.getAuthor(), outputString);
+		}
+		
+		
+	
+	@Override
+	public boolean isAuthorGM() {
+		try {
+			Role gmRole = this.findRole(this.currentEvent.getGuild(), this.GM_ROLENAME);
+			return this.currentEvent.getMember().getRoles().contains(gmRole);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	private void sendPrivateMessage(User user, String content) {
+        // openPrivateChannel provides a RestAction<PrivateChannel>
+        // which means it supplies you with the resulting channel
+        user.openPrivateChannel().queue((channel) ->
+        {
+            channel.sendMessage(content).queue();
+        });
+    }
+
+	@Override
+	public boolean isAuthorAdmin() {
+		try {
+			Role AdminRole = this.findRole(this.currentEvent.getGuild(), this.ADMIN_ROLENAME);
+			return this.currentEvent.getMember().getRoles().contains(AdminRole);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
 	}
 }
