@@ -78,9 +78,14 @@ public class Command {
 				returnArray.add(entryString);
 
 				// manually jump to the next char as the whitespace doesnt need comparing to
+				// therefore we need to save the next char as well as its type for comparing it later
 				entryString = Character.toString(str.charAt(i + 1));
+				previousType = Character.getType(str.charAt(i + 1));
+				
 				i++;
 				continue;
+				
+				
 			}
 
 			// check if the current type is different than the previous type
